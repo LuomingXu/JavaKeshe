@@ -21,5 +21,5 @@ public interface StuTeachMapper
 
     int updateByPrimaryKey(StuTeachDo record);
 
-    List<StuTeachDo> selectWithKeyword(@Param("keyword") String keyword);
+    List<StuTeachDo> selectWithKeyword(@Param("is_del")Boolean is_del, @Param("keyword") String keyword);
 }

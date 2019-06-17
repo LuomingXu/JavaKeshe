@@ -23,6 +23,7 @@
         <include refid="Base_Column_List"/>
         from student
         where name like '%${keyword}%'
+        and is_del = #{is_del}
     </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select

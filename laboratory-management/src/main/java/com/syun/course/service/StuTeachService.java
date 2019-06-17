@@ -29,10 +29,10 @@ public class StuTeachService
         this.mapper = mapper;
     }
 
-    public ImmutableMap<String, Object> getWithKeyword(String keyword, Integer page, Integer size)
+    public ImmutableMap<String, Object> getWithKeyword(Boolean is_teacher, String keyword, Integer page, Integer size)
     {
         Page page1 = PageHelper.startPage(page, size, true);
-        Object list = mapper.selectWithKeyword(keyword);
+        Object list = mapper.selectWithKeyword(is_teacher, keyword);
 
         return ImmutableMap.of("total", page1.getTotal(),
             "list", list,

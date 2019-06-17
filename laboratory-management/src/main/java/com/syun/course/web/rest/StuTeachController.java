@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@ApiOperation("学生教师管理")
+@ApiOperation("学生教师管理; is_del为true就是教师")
 @RestController
 @RequestMapping("/api/StuTeach")
 public class StuTeachController
@@ -23,18 +23,19 @@ public class StuTeachController
         this.service = service;
     }
 
-    @ApiOperation("查询所有学生.")
+    @ApiOperation("查询所有学生或教师.")
     @GetMapping("/search/{page}/{size}")
     public ImmutableMap<String, Object> getStudent
         (
             @PathVariable("page") Integer page,
             @PathVariable("size") Integer size,
+            @RequestParam Boolean is_teacher,
             @RequestParam(value = "keyword", required = false) String keyword
         )
     {
         LOG.info("request param page: {},size: {}, keyword: {}", page, size, keyword);
 
-        return service.getWithKeyword(keyword, page, size);
+        return service.getWithKeyword(is_teacher, keyword, page, size);
     }
 
     @GetMapping("/{id}")

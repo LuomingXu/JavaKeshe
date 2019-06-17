@@ -155,6 +155,7 @@ class Student extends React.Component<IStudentProp> {
   };
 
   handleSubmit = value => {
+    this.props.student.id = null;
     this.props.createStudent(value);
     this.props.setVisible(false);
   };
@@ -214,7 +215,6 @@ class Student extends React.Component<IStudentProp> {
                 <Option value="female">女</Option>
               </Select>
             </Form.Item>
-
             <Form.Item label="学院" style={{ width: 400 }}>
               <Input onChange={value => this.handleDeptChange(value, student)} />
             </Form.Item>

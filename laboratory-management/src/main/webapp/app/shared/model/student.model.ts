@@ -7,7 +7,6 @@ export interface IStudent {
   department?: string;
   specialty?: string;
   className?: string;
-  isDel?: boolean;
 }
 
 export const defaultValue: Readonly<IStudent> = {
@@ -18,6 +17,5 @@ export const defaultValue: Readonly<IStudent> = {
   age: null,
   department: '',
   specialty: '',
-  className: '',
-  isDel: true
+  className: ''
 };

@@ -195,7 +195,7 @@ export const setVisible = value => {
 };
 
 export const getStudents = (page, size, keyword) => {
-  const requestUrl = `${apiUri}/search/${page}/${size}?keyword=${keyword}`;
+  const requestUrl = `${apiUri}/search/${page}/${size}?is_teacher=${false}&&keyword=${keyword}`;
   return {
     type: ACTION_TYPE.GET_STUDENTS,
     payload: axios.get(requestUrl)

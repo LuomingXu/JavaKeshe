@@ -19,5 +19,5 @@ export const defaultValue: Readonly<IStudent> = {
   department: '',
   specialty: '',
   className: '',
-  isDel: null
+  isDel: true
 };

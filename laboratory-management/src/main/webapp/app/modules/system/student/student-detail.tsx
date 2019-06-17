@@ -1,6 +1,6 @@
 import React from 'react';
 import { getSession } from 'app/shared/reducers/authentication';
-import { getStudentById, setStudent, updateStudent } from 'app/modules/system/student/student.reducer';
+import { getStudentById, getStudents, setStudent, updateStudent } from 'app/modules/system/student/student.reducer';
 import { RouteComponentProps } from 'react-router';
 import { connect } from 'react-redux';
 import { Button, Form, Input, InputNumber, Select } from 'antd';
@@ -60,6 +60,7 @@ export class StudentDetail extends React.Component<IStudentProp> {
   handleSubmit = student => {
     this.props.updateStudent(student);
     this.props.history.push('/system/student');
+    this.props.getStudents(1, 8, '');
   };
 
   render() {
@@ -115,7 +116,7 @@ const mapStateToProps = storeState => ({
   isCreate: storeState.student.isCreate
 });
 
-const mapDispatchToProps = { getSession, getStudentById, setStudent, updateStudent };
+const mapDispatchToProps = { getSession, getStudentById, setStudent, updateStudent, getStudents };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

@@ -8,12 +8,15 @@ import {
   getStudentById,
   getStudents,
   initStudents,
+  setKeyword,
   setStudent,
   setVisible
 } from 'app/modules/system/student/student.reducer';
 import { Button, Divider, Drawer, Form, Input, Modal, Select, Table } from 'antd';
 import { RouteComponentProps } from 'react-router-dom';
+
 export interface IStudentProp extends StateProps, DispatchProps, RouteComponentProps<{}> {}
+
 const confirm = Modal.confirm;
 const Search = Input.Search;
 // @ts-ignore
@@ -59,7 +62,6 @@ const columns = (match, history, props) => [
             history.push(`${match.url}/detail`);
           }}
         >
-          {' '}
           detail
         </Button>
         <Divider type="vertical" />
@@ -114,11 +116,14 @@ function showConfirm(deleteStudent, id) {
 class Student extends React.Component<IStudentProp> {
   componentDidMount() {
     this.props.getSession();
-    this.getStudents(1, 8, '');
+    this.getStudents(1, 8, this.props.keyword);
   }
+
   getStudents = (page, size, keyword) => {
     this.props.getStudents(page, size, keyword);
+    this.props.setKeyword(keyword);
   };
+
   showDrawer = () => {
     this.props.setVisible(true);
   };
@@ -258,7 +263,8 @@ const mapDispatchToProps = {
   changeStatus,
   setStudent,
   setVisible,
-  createStudent
+  createStudent,
+  setKeyword
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

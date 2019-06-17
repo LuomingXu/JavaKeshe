@@ -16,7 +16,8 @@ export const ACTION_TYPE = {
   SET_STUDENT: 'student/SET_STUDENT',
   SET_VISIBLE: 'student/SET_VISIBLE',
   GET_STUDENTS: '/student/GET_STUDENTS',
-  CREATE_STUDENT: '/student/CREATE_STUDENT'
+  CREATE_STUDENT: '/student/CREATE_STUDENT',
+  SET_KEYWORD: '/student/SET_KEYWORD'
 };
 
 const initialState = {
@@ -87,6 +88,12 @@ export default (state: StudentState = initialState, action): StudentState => {
       return {
         ...state,
         isSuccess: action.payload.data
+      };
+
+    case ACTION_TYPE.SET_KEYWORD:
+      return {
+        ...state,
+        keyword: action.payload
       };
     case FAILURE(ACTION_TYPE.DELETE_STUDENT):
     case FAILURE(ACTION_TYPE.FETCH_STU):
@@ -189,12 +196,10 @@ export const setVisible = value => {
 
 export const getStudents = (page, size, keyword) => {
   const requestUrl = `${apiUri}/search/${page}/${size}?keyword=${keyword}`;
-  const result = {
+  return {
     type: ACTION_TYPE.GET_STUDENTS,
     payload: axios.get(requestUrl)
   };
-  console.log('get students:  ' + result.payload);
-  return result;
 };
 
 export const createStudent = value => {
@@ -210,5 +215,12 @@ export const updateStudent = value => {
   return {
     type: ACTION_TYPE.STUDENT_UPDATE,
     payload: axios.post(request, value)
+  };
+};
+
+export const setKeyword = value => {
+  return {
+    type: ACTION_TYPE.SET_KEYWORD,
+    payload: value
   };
 };

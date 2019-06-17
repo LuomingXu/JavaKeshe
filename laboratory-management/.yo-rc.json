@@ -1,0 +1,35 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.syun.course"
+    },
+    "jhipsterVersion": "5.8.2",
+    "applicationType": "monolith",
+    "baseName": "course",
+    "packageName": "com.syun.course",
+    "packageFolder": "com/syun/course",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "ODhjNTk5ZWY1Mjg1ZjAwMmM4YjgwZGQ5NWIzMWM4MTM4N2NmZWM5OGFiMDU1MzYwY2ExMTgwMjc4Y2U4ZDFlODE5N2NiOGQ3OTAxOWJlNTQ3MDAwYWY5NDBmZmMxNmQ3NWJkM2FjYTU4NDRhMTczMzZkZjFiOWQzYjI0MjliZGY=",
+    "clientFramework": "react",
+    "useSass": false,
+    "clientPackageManager": "npm",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false
+  }
+}

@@ -11,8 +11,6 @@ import {
 } from 'app/modules/system/student/student.reducer';
 import {Button, Divider, Drawer, Form, Input, Modal, Select, Table} from 'antd';
 import {RouteComponentProps} from 'react-router-dom';
-import StudentDetail from "app/modules/system/student/student-detail";
-
 export interface IStudentProp extends StateProps, DispatchProps, RouteComponentProps<{}> {
 }
 const confirm = Modal.confirm;
@@ -151,33 +149,23 @@ class Student extends React.Component<IStudentProp> {
 
     render() {
         const {account, match, students, page, size, total, history, visible, isCreate, student} = this.props;
-        if(isCreate){
-            student.id=null;
-            student.age=0;
-            student.dept='';
-            student.sex=null;
-            student.name = '';
-            student.number = '';
-        }
+
         const pagination = {
             pageSize: size,
             current:page,
             total:total
         };
+
         return (
             <div>
                 <Search placeholder="input search text" onSearch={(value) => {
                     this.getStudents(1, 2, value);
                 }} style={{width: 200}}/>
-                {/*<Button type="primary" onClick={this.showDrawer}>*/}
-                {/*    Open*/}
-                {/*</Button>*/}
                 <Button type="primary" size={"default"} style={{float: 'right'}} onClick={() => {
                     this.props.changeStatus(true);
                     // this.props.history.push(`${match.url}/new`);
                     this.showDrawer();
                 }}>创建</Button>
-
                 <Table
                     columns={columns(match, history, this.props)}
                     rowKey={account.login}
@@ -208,9 +196,6 @@ class Student extends React.Component<IStudentProp> {
                                 <Option value="female">女</Option>
                             </Select>
                         </Form.Item>
-                        {/*<Form.Item label="年龄" style={{width: 500}}>*/}
-                        {/*    <InputNumber defaultValue={student.age} onChange={(value)=>this.handleAgeChange(value,student)}/>*/}
-                        {/*</Form.Item>*/}
                         {/*<Form.Item label="院系" style={{width: 500}}>*/}
                         {/*    <Input defaultValue={student.dept}  onChange={(value)=>this.handleDeptChange(value,student)}/>*/}
                         {/*</Form.Item>*/}

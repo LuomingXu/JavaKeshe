@@ -1,10 +1,8 @@
-import React from 'react';
 import {defaultValue, IStudent} from "app/shared/model/student.model";
-import {FAILURE, REQUEST, SUCCESS} from "app/shared/reducers/action-type.util";
+import {FAILURE, SUCCESS} from "app/shared/reducers/action-type.util";
 import {ICrudGetAction} from "react-jhipster";
 import {IBook} from "app/shared/model/book.model";
 import axios from "axios";
-import value from "*.json";
 
 export const ACTION_TYPE = {
     FETCH_STU_ALL: 'student/FETCH_STU_ALL',
@@ -17,7 +15,8 @@ export const ACTION_TYPE = {
     CHANGE_STATUE: 'student/CHANGE_STATUE',
     SET_STUDENT: 'student/SET_STUDENT',
     SET_VISIBLE: 'student/SET_VISIBLE',
-    GET_STUDENTS: '/student/GET_STUDENTS'
+    GET_STUDENTS: '/student/GET_STUDENTS',
+    CREATE_STUDENT: '/student/CREATE_STUDENT'
 };
 
 const initialState = {
@@ -30,7 +29,8 @@ const initialState = {
     total: 0,
     keyword: '',
     isCreate: false,
-    visible: false
+    visible: false,
+    isSuccess: false
 };
 
 export default (state: StudentState = initialState, action): StudentState => {
@@ -75,7 +75,8 @@ export default (state: StudentState = initialState, action): StudentState => {
             };
         case SUCCESS(ACTION_TYPE.DELETE_STUDENT):
             return {
-                ...state
+                ...state,
+                isSuccess: action.payload.data
             };
         case FAILURE(ACTION_TYPE.DELETE_STUDENT):
         case FAILURE(ACTION_TYPE.FETCH_STU):
@@ -148,12 +149,10 @@ export const initStudents = value => {
 
 export const deleteStudent = id => async dispatch => {
     const requestUrl = `${apiUri}/delete/${id}`;
-    const result = {
+    return {
         type: ACTION_TYPE.DELETE_STUDENT,
         payload: axios.delete(requestUrl)
     };
-    dispatch(getStudents(1, 20, ''));
-    return result;
 };
 
 export const handleSubmit = value =>  async dispatch => {

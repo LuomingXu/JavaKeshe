@@ -30,6 +30,12 @@ const Student = Loadable({
     loader: () => import('app/modules/system/student'),
     loading: () => <div>loading ...</div>
 });
+
+
+const Teacher = Loadable({
+    loader: () => import('app/modules/system/teacher'),
+    loading: () => <div>loading ...</div>
+});
 // tslint:enable
 
 const Routes = () => (
@@ -45,7 +51,8 @@ const Routes = () => (
       <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
       <PrivateRoute path="/entity" component={Entities} hasAnyAuthorities={[AUTHORITIES.USER]} />
       <ErrorBoundaryRoute path="/system/student" component={Student} />
-      <ErrorBoundaryRoute path="/" component={Home} />
+      <ErrorBoundaryRoute path="/system/teacher" component={Teacher} />
+        <ErrorBoundaryRoute path="/" component={Home} />
     </Switch>
   </div>
 );

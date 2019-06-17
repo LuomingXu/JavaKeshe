@@ -12,6 +12,7 @@ import settings, { SettingsState } from 'app/modules/account/settings/settings.r
 import passwordReset, { PasswordResetState } from 'app/modules/account/password-reset/password-reset.reducer';
 import student, { StudentState } from "app/modules/system/student/student.reducer";
 import { combineReducers } from 'redux';
+import  teacher,{ TeacherState } from "app/modules/system/teacher/teacher.reducer";
 
 export interface IRootState {
   readonly authentication: AuthenticationState;
@@ -25,6 +26,7 @@ export interface IRootState {
   readonly settings: SettingsState;
   readonly loadingBar: any;
   readonly student: StudentState;
+  readonly teacher: TeacherState;
 }
 
 const rootReducer = combineReducers<IRootState>({
@@ -39,6 +41,7 @@ const rootReducer = combineReducers<IRootState>({
   settings,
   loadingBar,
     student,
+    teacher
 });
 
 export default rootReducer;

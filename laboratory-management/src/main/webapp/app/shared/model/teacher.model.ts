@@ -3,7 +3,7 @@ export interface ITeacher {
     name?:string;
     number?:string;
     sex?:boolean;
-    dept?:string;
+    department?:string;
 }
 
 export const defaultValue: Readonly<ITeacher> = {
@@ -11,5 +11,5 @@ export const defaultValue: Readonly<ITeacher> = {
     name: '',
     number: '',
     sex: false,
-    dept: ''
+    department: ''
 };

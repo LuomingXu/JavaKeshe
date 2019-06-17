@@ -1,149 +1,149 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.syun.course.repository.StudentMapper">
-  <resultMap id="BaseResultMap" type="com.syun.course.domain.Student">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="number" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="sex" javaType="java.lang.Boolean" jdbcType="BIT" />
-      <arg column="department" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="specialty" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="class_name" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="is_del" javaType="java.lang.Boolean" jdbcType="BIT" />
-      <arg column="last_modify" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, name, number, sex, department, specialty, class_name, is_del, last_modify
-  </sql>
+<mapper namespace="com.syun.course.repository.StuTeachMapper">
+    <resultMap id="BaseResultMap" type="com.syun.course.domain.StuTeachDo">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="number" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="sex" javaType="java.lang.Boolean" jdbcType="BIT"/>
+            <arg column="department" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="specialty" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="class_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="is_del" javaType="java.lang.Boolean" jdbcType="BIT"/>
+            <arg column="last_modify" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+            id, name, number, sex, department, specialty, class_name, is_del, last_modify
+    </sql>
 
-    <select id="selectAll" resultMap="BaseResultMap">
+    <select id="selectWithKeyword" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from student
+        where name like '%${keyword}%'
     </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from student
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from student
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.syun.course.domain.Student">
-    insert into student (id, name, number, 
-      sex, department, specialty, 
-      class_name, is_del, last_modify
-      )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=BIT}, #{department,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR}, 
-      #{className,jdbcType=VARCHAR}, #{isDel,jdbcType=BIT}, #{lastModify,jdbcType=TIMESTAMP}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.syun.course.domain.Student">
-    insert into student
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="number != null">
-        number,
-      </if>
-      <if test="sex != null">
-        sex,
-      </if>
-      <if test="department != null">
-        department,
-      </if>
-      <if test="specialty != null">
-        specialty,
-      </if>
-      <if test="className != null">
-        class_name,
-      </if>
-      <if test="isDel != null">
-        is_del,
-      </if>
-      <if test="lastModify != null">
-        last_modify,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="number != null">
-        #{number,jdbcType=VARCHAR},
-      </if>
-      <if test="sex != null">
-        #{sex,jdbcType=BIT},
-      </if>
-      <if test="department != null">
-        #{department,jdbcType=VARCHAR},
-      </if>
-      <if test="specialty != null">
-        #{specialty,jdbcType=VARCHAR},
-      </if>
-      <if test="className != null">
-        #{className,jdbcType=VARCHAR},
-      </if>
-      <if test="isDel != null">
-        #{isDel,jdbcType=BIT},
-      </if>
-      <if test="lastModify != null">
-        #{lastModify,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.syun.course.domain.Student">
-    update student
-    <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="number != null">
-        number = #{number,jdbcType=VARCHAR},
-      </if>
-      <if test="sex != null">
-        sex = #{sex,jdbcType=BIT},
-      </if>
-      <if test="department != null">
-        department = #{department,jdbcType=VARCHAR},
-      </if>
-      <if test="specialty != null">
-        specialty = #{specialty,jdbcType=VARCHAR},
-      </if>
-      <if test="className != null">
-        class_name = #{className,jdbcType=VARCHAR},
-      </if>
-      <if test="isDel != null">
-        is_del = #{isDel,jdbcType=BIT},
-      </if>
-      <if test="lastModify != null">
-        last_modify = #{lastModify,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.syun.course.domain.Student">
-    update student
-    set name = #{name,jdbcType=VARCHAR},
-      number = #{number,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=BIT},
-      department = #{department,jdbcType=VARCHAR},
-      specialty = #{specialty,jdbcType=VARCHAR},
-      class_name = #{className,jdbcType=VARCHAR},
-      is_del = #{isDel,jdbcType=BIT},
-      last_modify = #{lastModify,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from student
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from student
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.syun.course.domain.StuTeachDo">
+        insert into student (id, name, number,
+                             sex, department, specialty,
+                             class_name, is_del, last_modify)
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR},
+                #{sex,jdbcType=BIT}, #{department,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR},
+                #{className,jdbcType=VARCHAR}, #{isDel,jdbcType=BIT}, #{lastModify,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.syun.course.domain.StuTeachDo">
+        insert into student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="number != null">
+                number,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="department != null">
+                department,
+            </if>
+            <if test="specialty != null">
+                specialty,
+            </if>
+            <if test="className != null">
+                class_name,
+            </if>
+            <if test="isDel != null">
+                is_del,
+            </if>
+            <if test="lastModify != null">
+                last_modify,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=BIT},
+            </if>
+            <if test="department != null">
+                #{department,jdbcType=VARCHAR},
+            </if>
+            <if test="specialty != null">
+                #{specialty,jdbcType=VARCHAR},
+            </if>
+            <if test="className != null">
+                #{className,jdbcType=VARCHAR},
+            </if>
+            <if test="isDel != null">
+                #{isDel,jdbcType=BIT},
+            </if>
+            <if test="lastModify != null">
+                #{lastModify,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.syun.course.domain.StuTeachDo">
+        update student
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                number = #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=BIT},
+            </if>
+            <if test="department != null">
+                department = #{department,jdbcType=VARCHAR},
+            </if>
+            <if test="specialty != null">
+                specialty = #{specialty,jdbcType=VARCHAR},
+            </if>
+            <if test="className != null">
+                class_name = #{className,jdbcType=VARCHAR},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel,jdbcType=BIT},
+            </if>
+            <if test="lastModify != null">
+                last_modify = #{lastModify,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.syun.course.domain.StuTeachDo">
+        update student
+        set name        = #{name,jdbcType=VARCHAR},
+            number      = #{number,jdbcType=VARCHAR},
+            sex         = #{sex,jdbcType=BIT},
+            department  = #{department,jdbcType=VARCHAR},
+            specialty   = #{specialty,jdbcType=VARCHAR},
+            class_name  = #{className,jdbcType=VARCHAR},
+            is_del      = #{isDel,jdbcType=BIT},
+            last_modify = #{lastModify,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

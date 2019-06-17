@@ -2,7 +2,8 @@ package com.syun.course.domain;
 
 import java.util.Date;
 
-public class Student {
+public class StuTeachDo
+{
     private Integer id;
 
     private String name;
@@ -21,7 +22,7 @@ public class Student {
 
     private Date lastModify;
 
-    public Student(Integer id, String name, String number, Boolean sex, String department, String specialty, String className, Boolean isDel, Date lastModify) {
+    public StuTeachDo(Integer id, String name, String number, Boolean sex, String department, String specialty, String className, Boolean isDel, Date lastModify) {
         this.id = id;
         this.name = name;
         this.number = number;
@@ -33,7 +34,7 @@ public class Student {
         this.lastModify = lastModify;
     }
 
-    public Student() {
+    public StuTeachDo() {
         super();
     }
 
@@ -107,5 +108,21 @@ public class Student {
 
     public void setLastModify(Date lastModify) {
         this.lastModify = lastModify;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "StuTeachDo{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", number='" + number + '\'' +
+            ", sex=" + sex +
+            ", department='" + department + '\'' +
+            ", specialty='" + specialty + '\'' +
+            ", className='" + className + '\'' +
+            ", isDel=" + isDel +
+            ", lastModify=" + lastModify +
+            '}';
     }
 }

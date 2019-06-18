@@ -47,9 +47,30 @@ public class ExperimentService
         return mapper.selectByPrimaryKey(id);
     }
 
+    public ImmutableMap<String, Object> getAllWithStudent(Integer page, Integer size)
+    {
+        Page page1 = PageHelper.startPage(page, size, true);
+        Object list = mapper.selectAllWithStudent();
+
+        return ImmutableMap.of("total", page1.getTotal(),
+            "list", list,
+            "page", page,
+            "size", size);
+    }
+
+    public ExperimentDO searchByIdWithStudent(Long id)
+    {
+        return mapper.selectByPrimaryKeyWithStudent(id);
+    }
+
     public Boolean add(ExperimentDO record)
     {
         return mapper.insertSelective(record) == 1;
+    }
+
+    public Boolean addExperimentStudent(Long experimentId, List<Long> stuIds)
+    {
+        return mapper.insertExperimentStudent(experimentId, stuIds) == stuIds.size();
     }
 
     public Boolean update(ExperimentDO record)
@@ -60,5 +81,10 @@ public class ExperimentService
         }
 
         return mapper.updateByPrimaryKeySelective(record) == 1;
+    }
+
+    public Boolean delete(Long id)
+    {
+        return mapper.deleteByPrimaryKey(id) == 1;
     }
 }

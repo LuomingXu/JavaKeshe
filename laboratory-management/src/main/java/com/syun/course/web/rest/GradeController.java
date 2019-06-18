@@ -11,6 +11,7 @@ package com.syun.course.web.rest;
 
 import com.syun.course.domain.GradeDO;
 import com.syun.course.service.GradeService;
+import com.syun.course.web.rest.errors.CustomParameterizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,9 +42,20 @@ public class GradeController
     }
 
     @PostMapping("/add")
-    public Boolean add(@RequestBody GradeDO record)
+    public Boolean add(@RequestBody List<GradeDO> records)
     {
-        return service.add(record);
+        int count = 0;
+        for (GradeDO record : records)
+        {
+            if (service.add(record))
+            {
+                count++;
+            }
+            else
+                throw new CustomParameterizedException("此数据插入失败", record.toString());
+        }
+
+        return count == records.size();
     }
 
     @PostMapping("/update")

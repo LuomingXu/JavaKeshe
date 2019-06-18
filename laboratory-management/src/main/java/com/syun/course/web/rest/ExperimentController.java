@@ -12,8 +12,11 @@ package com.syun.course.web.rest;
 import com.google.common.collect.ImmutableMap;
 import com.syun.course.domain.ExperimentDO;
 import com.syun.course.service.ExperimentService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/experiment")
@@ -34,7 +37,18 @@ public class ExperimentController
             @PathVariable("size") Integer size
         )
     {
-        return service.getAll(page,size);
+        return service.getAll(page, size);
+    }
+
+    @ApiOperation("包含了参与这个实验的学生List")
+    @GetMapping("/all/withStudent/{page}/{size}")
+    public ImmutableMap<String, Object> getAllWithStudent
+        (
+            @PathVariable("page") Integer page,
+            @PathVariable("size") Integer size
+        )
+    {
+        return service.getAllWithStudent(page, size);
     }
 
     @GetMapping("/{id}")
@@ -43,15 +57,34 @@ public class ExperimentController
         return service.searchById(id);
     }
 
+    @ApiOperation("包含了参与这个实验的学生List")
+    @GetMapping("/withStudent/{id}")
+    public ExperimentDO getByIdWithStudent(@PathVariable Long id)
+    {
+        return service.searchByIdWithStudent(id);
+    }
+
     @PostMapping("/add")
     public Boolean add(@RequestBody ExperimentDO record)
     {
         return service.add(record);
     }
 
+    @PostMapping("/addExperimentStudent")
+    public Boolean addExperimentStudent(@RequestParam Long experimentId, @RequestBody List<Long> stuIds)
+    {
+        return service.addExperimentStudent(experimentId, stuIds);
+    }
+
     @PostMapping("/update")
     public Boolean update(@RequestBody ExperimentDO record)
     {
         return service.update(record);
+    }
+
+    @DeleteMapping("/{id}")
+    public Boolean delete(@PathVariable Long id)
+    {
+        return service.delete(id);
     }
 }

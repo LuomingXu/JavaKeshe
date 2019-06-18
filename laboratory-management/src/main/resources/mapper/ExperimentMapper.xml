@@ -14,7 +14,13 @@
             <result column="stuNo" jdbcType="VARCHAR" property="number"/>
         </collection>
     </resultMap>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from experiment
+    </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select * from experiment where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectByPrimaryKeyWithStudent" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select experiment.*,
                student.number as stuNo,
                student.name   as stuName
@@ -25,7 +31,7 @@
           and experiment.id = experiment_student.experiment_id
           and student.id = experiment_student.student_id
     </select>
-    <select id="selectAll" resultMap="BaseResultMap">
+    <select id="selectAllWithStudent" resultMap="BaseResultMap">
         select experiment.*, student.number as stuNo, student.name as stuName
         from experiment,
              experiment_student,
@@ -38,6 +44,13 @@
         from experiment
         where id = #{id,jdbcType=BIGINT}
     </delete>
+    <insert id="insertExperimentStudent" parameterType="java.lang.Long">
+        insert into experiment_student(experiment_id, student_id)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{experimentId},#{item})
+        </foreach>
+    </insert>
     <insert id="insertSelective" parameterType="com.syun.course.domain.ExperimentDO">
         insert into experiment
         <trim prefix="(" suffix=")" suffixOverrides=",">

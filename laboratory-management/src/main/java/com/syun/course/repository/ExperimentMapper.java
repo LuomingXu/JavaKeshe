@@ -10,19 +10,31 @@
 package com.syun.course.repository;
 
 import com.syun.course.domain.ExperimentDO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface ExperimentMapper {
+public interface ExperimentMapper
+{
     int deleteByPrimaryKey(Long id);
 
     int insertSelective(ExperimentDO record);
 
+    int insertExperimentStudent
+        (
+            @Param("experimentId") Long experimentId,
+            @Param("stuIds") List<Long> stuIds
+        );
+
     ExperimentDO selectByPrimaryKey(Long id);
 
     List<ExperimentDO> selectAll();
+
+    ExperimentDO selectByPrimaryKeyWithStudent(Long id);
+
+    List<ExperimentDO> selectAllWithStudent();
 
     int updateByPrimaryKeySelective(ExperimentDO record);
 }

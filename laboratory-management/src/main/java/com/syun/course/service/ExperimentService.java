@@ -9,6 +9,9 @@
 
 package com.syun.course.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.google.common.collect.ImmutableMap;
 import com.syun.course.domain.ExperimentDO;
 import com.syun.course.repository.ExperimentMapper;
 import com.syun.course.web.rest.errors.CustomParameterizedException;
@@ -28,9 +31,15 @@ public class ExperimentService
         this.mapper = mapper;
     }
 
-    public List<ExperimentDO> getAll()
+    public ImmutableMap<String, Object> getAll(Integer page, Integer size)
     {
-        return mapper.selectAll();
+        Page page1 = PageHelper.startPage(page, size, true);
+        Object list = mapper.selectAll();
+
+        return ImmutableMap.of("total", page1.getTotal(),
+            "list", list,
+            "page", page,
+            "size", size);
     }
 
     public ExperimentDO searchById(Long id)

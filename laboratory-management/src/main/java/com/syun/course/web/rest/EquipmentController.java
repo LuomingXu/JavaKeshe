@@ -9,6 +9,7 @@
 
 package com.syun.course.web.rest;
 
+import com.google.common.collect.ImmutableMap;
 import com.syun.course.domain.EquipmentDO;
 import com.syun.course.domain.ExperimentDO;
 import com.syun.course.service.EquipmentService;
@@ -29,10 +30,14 @@ public class EquipmentController
         this.service = service;
     }
 
-    @GetMapping("/all")
-    public List<EquipmentDO> getAll()
+    @GetMapping("/all/{page}/{size}")
+    public ImmutableMap<String, Object> getAll
+        (
+            @PathVariable("page") Integer page,
+            @PathVariable("size") Integer size
+        )
     {
-        return service.getAll();
+        return service.getAll(page, size);
     }
 
     @GetMapping("/{id}")

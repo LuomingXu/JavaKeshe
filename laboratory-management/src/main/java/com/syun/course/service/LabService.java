@@ -9,13 +9,14 @@
 
 package com.syun.course.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.google.common.collect.ImmutableMap;
 import com.syun.course.domain.LabDO;
 import com.syun.course.repository.LabMapper;
 import com.syun.course.web.rest.errors.CustomParameterizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class LabService
@@ -28,9 +29,15 @@ public class LabService
         this.mapper = mapper;
     }
 
-    public List<LabDO> getAll()
+    public ImmutableMap<String, Object> getAll(Integer page, Integer size)
     {
-        return mapper.selectAll();
+        Page page1 = PageHelper.startPage(page, size, true);
+        Object list = mapper.selectAll();
+
+        return ImmutableMap.of("total", page1.getTotal(),
+            "list", list,
+            "page", page,
+            "size", size);
     }
 
     public LabDO searchById(Long id)

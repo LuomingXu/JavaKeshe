@@ -9,13 +9,12 @@
 
 package com.syun.course.web.rest;
 
+import com.google.common.collect.ImmutableMap;
 import com.syun.course.domain.LabDO;
 import com.syun.course.service.LabService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/lab")
@@ -29,10 +28,14 @@ public class LabController
         this.service = service;
     }
 
-    @GetMapping("/all")
-    public List<LabDO> getAll()
+    @GetMapping("/all/{page}/{size}")
+    public ImmutableMap<String, Object> getAll
+        (
+            @PathVariable("page") Integer page,
+            @PathVariable("size") Integer size
+        )
     {
-        return service.getAll();
+        return service.getAll(page, size);
     }
 
     @GetMapping("/{id}")

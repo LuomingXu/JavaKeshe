@@ -13,6 +13,8 @@ import com.syun.course.domain.GradeDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface GradeMapper
 {
@@ -20,9 +22,9 @@ public interface GradeMapper
 
     int insertSelective(GradeDO record);
 
-    GradeDO selectByExperimentNo(@Param("experimentNo") String experimentNo);
+    List<GradeDO> selectByExperimentNo(@Param("experimentNo") String experimentNo);
 
-    GradeDO selectByStudentNo(@Param("studentNo") String studentNo);
+    List<GradeDO> selectByStudentNo(@Param("studentNo") String studentNo);
 
     GradeDO selectByPrimaryKey(Long id);
 

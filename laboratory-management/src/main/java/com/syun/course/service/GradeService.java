@@ -14,6 +14,8 @@ import com.syun.course.repository.GradeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GradeService
 {
@@ -25,12 +27,12 @@ public class GradeService
         this.mapper = mapper;
     }
 
-    public GradeDO getByExperimentNo(String experimentNo)
+    public List<GradeDO> getByExperimentNo(String experimentNo)
     {
         return mapper.selectByExperimentNo(experimentNo);
     }
 
-    public GradeDO getByStudentNo(String studentNo)
+    public List<GradeDO> getByStudentNo(String studentNo)
     {
         return mapper.selectByStudentNo(studentNo);
     }

@@ -14,6 +14,8 @@ import com.syun.course.service.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/grade")
 public class GradeController
@@ -27,13 +29,13 @@ public class GradeController
     }
 
     @GetMapping("/search/experimentNo")
-    public GradeDO searchByExperimentNo(@RequestParam String experimentNo)
+    public List<GradeDO> searchByExperimentNo(@RequestParam String experimentNo)
     {
         return service.getByExperimentNo(experimentNo);
     }
 
     @GetMapping("/search/studentNo")
-    public GradeDO searchByStudentNo(@RequestParam String studentNo)
+    public List<GradeDO> searchByStudentNo(@RequestParam String studentNo)
     {
         return service.getByStudentNo(studentNo);
     }

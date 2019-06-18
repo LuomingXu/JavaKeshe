@@ -2,11 +2,11 @@ import './header.css';
 
 import React from 'react';
 
-import {Collapse, Nav, Navbar, NavbarToggler} from 'reactstrap';
+import { Collapse, Nav, Navbar, NavbarToggler } from 'reactstrap';
 import LoadingBar from 'react-redux-loading-bar';
 
-import {Brand, Home} from './header-components';
-import {AccountMenu, AdminMenu, EntitiesMenu, SystemMenu} from './menus';
+import { Brand, Home } from './header-components';
+import { AccountMenu, AdminMenu, EntitiesMenu, SystemMenu } from './menus';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -41,25 +41,25 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
 
     /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
 
-      return (
-          <div id="app-header">
-              {this.renderDevRibbon()}
-              <LoadingBar className="loading-bar"/>
-              <Navbar dark expand="sm" fixed="top" className="jh-navbar">
-                  <NavbarToggler aria-label="Menu" onClick={this.toggleMenu}/>
-                  <Brand/>
-                  <Collapse isOpen={this.state.menuOpen} navbar>
-                      <Nav id="header-tabs" className="ml-auto" navbar>
-                          <Home/>
-                          {/*{isAuthenticated && <SystemMenu/>}*/}
-                          {<SystemMenu/>}
-                          {isAuthenticated && <EntitiesMenu/>}
-                          {isAuthenticated && isAdmin && <AdminMenu showSwagger={isSwaggerEnabled}/>}
-                          <AccountMenu isAuthenticated={isAuthenticated}/>
-                      </Nav>
-                  </Collapse>
-              </Navbar>
-          </div>
-      );
+    return (
+      <div id="app-header">
+        {this.renderDevRibbon()}
+        <LoadingBar className="loading-bar" />
+        <Navbar dark expand="sm" fixed="top" className="jh-navbar">
+          <NavbarToggler aria-label="Menu" onClick={this.toggleMenu} />
+          <Brand />
+          <Collapse isOpen={this.state.menuOpen} navbar>
+            <Nav id="header-tabs" className="ml-auto" navbar>
+              <Home />
+              {isAuthenticated && <SystemMenu />}
+              {/*{<SystemMenu/>}*/}
+              {isAuthenticated && <EntitiesMenu />}
+              {isAuthenticated && isAdmin && <AdminMenu showSwagger={isSwaggerEnabled} />}
+              <AccountMenu isAuthenticated={isAuthenticated} />
+            </Nav>
+          </Collapse>
+        </Navbar>
+      </div>
+    );
   }
 }

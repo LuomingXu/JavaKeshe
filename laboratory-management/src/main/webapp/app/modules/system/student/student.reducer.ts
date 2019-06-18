@@ -138,25 +138,6 @@ export const getStudentById: ICrudGetAction<IStudent> = id => {
   };
 };
 
-export const getStudentss = (page, size, keyword) => {
-  const requestUrl = `${apiUri}/search/${page}/${size}?keyword=${keyword}`;
-  console.log(requestUrl);
-  const result = {
-    type: ACTION_TYPE.FETCH_STU,
-    payload: axios.get(requestUrl)
-  };
-  // console.log(result.payload);
-  // dispatch(changePage(page, size));
-  return result;
-};
-
-export const changePage = (page, size) => {
-  return {
-    type: ACTION_TYPE.CHANGE_PAGE,
-    payload: { page: page, size: size }
-  };
-};
-
 export const initStudents = value => {
   return {
     type: ACTION_TYPE.INIT_STUDENTS,
@@ -173,7 +154,6 @@ export const deleteStudent = id => {
 };
 
 export const changeStatus = value => {
-  console.log('value: ' + value);
   return {
     type: ACTION_TYPE.CHANGE_STATUE,
     payload: value

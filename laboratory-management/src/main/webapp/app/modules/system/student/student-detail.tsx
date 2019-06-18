@@ -3,7 +3,7 @@ import { getSession } from 'app/shared/reducers/authentication';
 import { getStudentById, getStudents, setStudent, updateStudent } from 'app/modules/system/student/student.reducer';
 import { RouteComponentProps } from 'react-router';
 import { connect } from 'react-redux';
-import { Button, Form, Input, InputNumber, Select } from 'antd';
+import { Button, Form, Input, InputNumber, Select, Popconfirm } from 'antd';
 
 export interface IStudentProp extends StateProps, DispatchProps, RouteComponentProps<{}> {}
 

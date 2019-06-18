@@ -10,9 +10,10 @@ import activate, { ActivateState } from 'app/modules/account/activate/activate.r
 import password, { PasswordState } from 'app/modules/account/password/password.reducer';
 import settings, { SettingsState } from 'app/modules/account/settings/settings.reducer';
 import passwordReset, { PasswordResetState } from 'app/modules/account/password-reset/password-reset.reducer';
-import student, { StudentState } from "app/modules/system/student/student.reducer";
+import student, { StudentState } from 'app/modules/system/student/student.reducer';
 import { combineReducers } from 'redux';
-import  teacher,{ TeacherState } from "app/modules/system/teacher/teacher.reducer";
+import teacher, { TeacherState } from 'app/modules/system/teacher/teacher.reducer';
+import experiment, { ExperimentState } from 'app/modules/system/experiment/experiment.reducer';
 
 export interface IRootState {
   readonly authentication: AuthenticationState;
@@ -27,6 +28,7 @@ export interface IRootState {
   readonly loadingBar: any;
   readonly student: StudentState;
   readonly teacher: TeacherState;
+  readonly experiment: ExperimentState;
 }
 
 const rootReducer = combineReducers<IRootState>({
@@ -40,8 +42,9 @@ const rootReducer = combineReducers<IRootState>({
   password,
   settings,
   loadingBar,
-    student,
-    teacher
+  student,
+  teacher,
+  experiment
 });
 
 export default rootReducer;

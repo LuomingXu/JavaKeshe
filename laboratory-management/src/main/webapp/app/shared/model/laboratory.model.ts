@@ -1,11 +1,11 @@
 export interface ILaboratory {
   id?: any;
   name?: string;
-  place?: string;
+  location?: string;
 }
 
 export const defaultValue: Readonly<ILaboratory> = {
   id: '',
   name: '',
-    place: ''
+  location: ''
 };

@@ -165,7 +165,7 @@ class Student extends React.Component<IStudentProp> {
   };
 
   render() {
-    const { account, match, students, page, size, total, history, visible, isCreate, student } = this.props;
+    const { account, match, students, page, size, total, history, visible, student } = this.props;
 
     const pagination = {
       pageSize: size,
@@ -176,9 +176,9 @@ class Student extends React.Component<IStudentProp> {
     return (
       <div>
         <Search
-          placeholder="input search text"
+          placeholder="输入关键字"
           onSearch={value => {
-            this.getStudents(1, 2, value);
+            this.getStudents(1, 8, value);
           }}
           style={{ width: 200 }}
         />
@@ -199,6 +199,7 @@ class Student extends React.Component<IStudentProp> {
           rowKey={account.login}
           dataSource={students}
           pagination={pagination}
+          bordered
           onChange={this.handlePageChange}
         />
         <Drawer title="Basic Drawer" placement="right" width={500} closable={false} onClose={this.onClose} visible={visible}>

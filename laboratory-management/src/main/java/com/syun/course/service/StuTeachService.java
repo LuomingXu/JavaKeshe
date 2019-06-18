@@ -40,13 +40,19 @@ public class StuTeachService
             "size", size);
     }
 
-    public StuTeachDo getById(Integer id)
+    public StuTeachDo getById(Long id)
     {
         return mapper.selectByPrimaryKey(id);
     }
 
     public Boolean add(StuTeachDo record)
     {
+        //判断前端传的数据是否有效
+        if (record.getName().equals(""))
+        {
+            return false;
+        }
+
         return mapper.insertSelective(record) == 1;
     }
 
@@ -60,7 +66,7 @@ public class StuTeachService
         return mapper.updateByPrimaryKeySelective(record) == 1;
     }
 
-    public Boolean delete(Integer id)
+    public Boolean delete(Long id)
     {
         return mapper.deleteByPrimaryKey(id) == 1;
     }

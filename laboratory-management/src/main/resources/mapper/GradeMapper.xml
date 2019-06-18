@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.syun.course.repository.GradeMapper">
+    <resultMap id="BaseResultMap" type="com.syun.course.domain.GradeDO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="student_no" jdbcType="VARCHAR" property="studentNo"/>
+        <result column="experiment_no" jdbcType="VARCHAR" property="experimentNo"/>
+        <result column="grade" jdbcType="INTEGER" property="grade"/>
+    </resultMap>
+    <select id="selectByExperimentNo" resultMap="BaseResultMap">
+        select *
+        from grade
+        where experiment_no = #{experimentNo,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByStudentNo" resultMap="BaseResultMap">
+        select *
+        from grade
+        where student_no = #{studentNo,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select *
+        from grade
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from grade
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insertSelective" parameterType="com.syun.course.domain.GradeDO">
+        insert into grade
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="studentNo != null">
+                student_no,
+            </if>
+            <if test="experimentNo != null">
+                experiment_no,
+            </if>
+            <if test="grade != null">
+                grade,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="studentNo != null">
+                #{studentNo,jdbcType=VARCHAR},
+            </if>
+            <if test="experimentNo != null">
+                #{experimentNo,jdbcType=VARCHAR},
+            </if>
+            <if test="grade != null">
+                #{grade,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.syun.course.domain.GradeDO">
+        update grade
+        <set>
+            <if test="studentNo != null">
+                student_no = #{studentNo,jdbcType=VARCHAR},
+            </if>
+            <if test="experimentNo != null">
+                experiment_no = #{experimentNo,jdbcType=VARCHAR},
+            </if>
+            <if test="grade != null">
+                grade = #{grade,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

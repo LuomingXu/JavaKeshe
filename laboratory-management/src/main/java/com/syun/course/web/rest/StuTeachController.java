@@ -39,7 +39,7 @@ public class StuTeachController
     }
 
     @GetMapping("/{id}")
-    public StuTeachDo get(@PathVariable("id") Integer id)
+    public StuTeachDo get(@PathVariable("id") Long id)
     {
         LOG.info("id: {}", id);
         return service.getById(id);
@@ -61,7 +61,7 @@ public class StuTeachController
 
     @ApiOperation("根据id删除")
     @DeleteMapping("/{id}")
-    public Boolean delete(@PathVariable Integer id)
+    public Boolean delete(@PathVariable Long id)
     {
         return service.delete(id);
     }

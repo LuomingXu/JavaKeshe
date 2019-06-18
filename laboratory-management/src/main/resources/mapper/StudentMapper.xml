@@ -3,7 +3,7 @@
 <mapper namespace="com.syun.course.repository.StuTeachMapper">
     <resultMap id="BaseResultMap" type="com.syun.course.domain.StuTeachDo">
         <constructor>
-            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <idArg column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
             <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="number" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="sex" javaType="java.lang.Boolean" jdbcType="BIT"/>
@@ -36,14 +36,6 @@
         from student
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" parameterType="com.syun.course.domain.StuTeachDo">
-        insert into student (id, name, number,
-                             sex, department, specialty,
-                             class_name, is_del, last_modify)
-        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR},
-                #{sex,jdbcType=BIT}, #{department,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR},
-                #{className,jdbcType=VARCHAR}, #{isDel,jdbcType=BIT}, #{lastModify,jdbcType=TIMESTAMP})
-    </insert>
     <insert id="insertSelective" parameterType="com.syun.course.domain.StuTeachDo">
         insert into student
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -133,18 +125,6 @@
                 last_modify = #{lastModify,jdbcType=TIMESTAMP},
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.syun.course.domain.StuTeachDo">
-        update student
-        set name        = #{name,jdbcType=VARCHAR},
-            number      = #{number,jdbcType=VARCHAR},
-            sex         = #{sex,jdbcType=BIT},
-            department  = #{department,jdbcType=VARCHAR},
-            specialty   = #{specialty,jdbcType=VARCHAR},
-            class_name  = #{className,jdbcType=VARCHAR},
-            is_del      = #{isDel,jdbcType=BIT},
-            last_modify = #{lastModify,jdbcType=TIMESTAMP}
         where id = #{id,jdbcType=INTEGER}
     </update>
 </mapper>

@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class StuTeachDo
 {
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -22,7 +22,7 @@ public class StuTeachDo
 
     private Date lastModify;
 
-    public StuTeachDo(Integer id, String name, String number, Boolean sex, String department, String specialty, String className, Boolean isDel, Date lastModify) {
+    public StuTeachDo(Long id, String name, String number, Boolean sex, String department, String specialty, String className, Boolean isDel, Date lastModify) {
         this.id = id;
         this.name = name;
         this.number = number;
@@ -38,11 +38,11 @@ public class StuTeachDo
         super();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

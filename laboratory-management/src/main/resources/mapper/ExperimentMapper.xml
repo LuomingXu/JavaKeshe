@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.syun.course.repository.ExperimentMapper">
+    <resultMap id="BaseResultMap" type="com.syun.course.domain.ExperimentDO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="no" jdbcType="VARCHAR" property="no"/>
+        <result column="teacher" jdbcType="VARCHAR" property="teacher"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="date" jdbcType="TIMESTAMP" property="date"/>
+        <collection property="students" ofType="com.syun.course.domain.StuTeachDo">
+            <result column="stuName" jdbcType="VARCHAR" property="name"/>
+            <result column="stuNo" jdbcType="VARCHAR" property="number"/>
+        </collection>
+    </resultMap>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select experiment.*,
+               student.number as stuNo,
+               student.name   as stuName
+        from experiment,
+             experiment_student,
+             student
+        where experiment.id = #{id,jdbcType=BIGINT}
+          and experiment.id = experiment_student.experiment_id
+          and student.id = experiment_student.student_id
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select experiment.*, student.number as stuNo, student.name as stuName
+        from experiment,
+             experiment_student,
+             student
+        where experiment.id = experiment_student.experiment_id
+          and student.id = experiment_student.student_id
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from experiment
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insertSelective" parameterType="com.syun.course.domain.ExperimentDO">
+        insert into experiment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="no != null">
+                no,
+            </if>
+            <if test="teacher != null">
+                teacher,
+            </if>
+            <if test="location != null">
+                location,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="date != null">
+                date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="no != null">
+                #{no,jdbcType=VARCHAR},
+            </if>
+            <if test="teacher != null">
+                #{teacher,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null">
+                #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="date != null">
+                #{date,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.syun.course.domain.ExperimentDO">
+        update experiment
+        <set>
+            <if test="no != null">
+                no = #{no,jdbcType=VARCHAR},
+            </if>
+            <if test="teacher != null">
+                teacher = #{teacher,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null">
+                location = #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="date != null">
+                date = #{date,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

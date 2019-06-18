@@ -9,17 +9,13 @@ import java.util.List;
 @Repository
 public interface StuTeachMapper
 {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(StuTeachDo record);
+    int deleteByPrimaryKey(Long id);
 
     int insertSelective(StuTeachDo record);
 
-    StuTeachDo selectByPrimaryKey(Integer id);
+    StuTeachDo selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(StuTeachDo record);
-
-    int updateByPrimaryKey(StuTeachDo record);
 
     List<StuTeachDo> selectWithKeyword(@Param("is_del")Boolean is_del, @Param("keyword") String keyword);
 }

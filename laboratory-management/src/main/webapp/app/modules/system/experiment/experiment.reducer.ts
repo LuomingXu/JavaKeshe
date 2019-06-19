@@ -1,6 +1,7 @@
 import { defaultValue, IExperiment } from 'app/shared/model/experiment.model';
 import { FAILURE, SUCCESS } from 'app/shared/reducers/action-type.util';
 import axios from 'axios';
+
 export const ACTION_TYPE = {
   GET_EXPERIMENTS: 'experiment/GET_EXPERIMENTS',
   GET_EXPERIMENT: 'experiment/GET_EXPERIMENT',
@@ -10,7 +11,9 @@ export const ACTION_TYPE = {
   SET_VISIBLE: 'experiment/SET_VISIBLE',
   SET_EXPERIMENT: 'experiment/SET_EXPERIMENT',
   GET_EXPERIMENT_GRADES: 'experiment/GET_EXPERIMENT_GRADES',
-  ADD_GRADES: '/experiment/ADD_GRADES'
+  ADD_GRADES: '/experiment/ADD_GRADES',
+  HANDLE_STU_ID: '/experiment/HANDLE_STU_ID',
+  ADD_STUDENTS: '/experiment/ADD_STUDENTS'
 };
 
 export const initialState = {
@@ -23,7 +26,8 @@ export const initialState = {
   visible: false,
   keyword: '',
   isSuccess: false,
-  grades: []
+  grades: [],
+  studentIds: []
 };
 
 export type ExperimentState = Readonly<typeof initialState>;
@@ -59,9 +63,19 @@ export default (state: ExperimentState = initialState, action): ExperimentState 
         experiment: action.payload.experiment
       };
     case SUCCESS(ACTION_TYPE.GET_EXPERIMENT_GRADES):
+      let grades = [];
+      let students = action.payload.data.students;
+      for (let i = 0; i < students.length; i++) {
+        grades[i] = {
+          experimentNo: state.experiment.id,
+          studentNo: students[i].number,
+          name: students[i].name,
+          grade: students[i].grade
+        };
+      }
       return {
         ...state,
-        grades: action.payload.data
+        grades: grades
       };
     case ACTION_TYPE.SET_VISIBLE:
       return {
@@ -72,6 +86,11 @@ export default (state: ExperimentState = initialState, action): ExperimentState 
       return {
         ...state,
         experiment: action.payload
+      };
+    case ACTION_TYPE.HANDLE_STU_ID:
+      return {
+        ...state,
+        studentIds: action.payload
       };
     case FAILURE(ACTION_TYPE.GET_EXPERIMENTS):
     case FAILURE(ACTION_TYPE.DEL_EXPERIMENT):
@@ -100,7 +119,6 @@ export const createExperiment = experiment => {
   const request = `${apiUri}/add`;
   console.log(experiment);
   console.log(request);
-
   return {
     type: ACTION_TYPE.CREATE_EXPERIMENT,
     payload: axios.post(request, experiment)
@@ -140,8 +158,8 @@ export const setExperiment = value => {
 
 const gradeApi = '/api/grade';
 
-export const getExperimentGrades = number => {
-  const request = `/api/grade/search/experimentNo?experimentNo=${number}`;
+export const getExperimentGrades = id => {
+  const request = `/api/experiment/${id}/withStudent`;
   console.log(request);
   return {
     type: ACTION_TYPE.GET_EXPERIMENT_GRADES,
@@ -155,5 +173,21 @@ export const submitGrade = grades => {
   return {
     type: ACTION_TYPE.ADD_GRADES,
     payload: axios.post(request, grades)
+  };
+};
+
+export const handleStuIds = value => {
+  return {
+    type: ACTION_TYPE.HANDLE_STU_ID,
+    payload: value
+  };
+};
+
+// 添加与实验相关学生
+export const addStudents = (experimentId, stuIds) => {
+  const request = `${apiUri}/addExperimentStudent?experimentId=${experimentId}`;
+  return {
+    type: ACTION_TYPE.ADD_STUDENTS,
+    payload: axios.post(request, stuIds)
   };
 };

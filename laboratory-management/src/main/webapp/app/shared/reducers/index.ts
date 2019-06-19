@@ -14,6 +14,7 @@ import student, { StudentState } from 'app/modules/system/student/student.reduce
 import { combineReducers } from 'redux';
 import teacher, { TeacherState } from 'app/modules/system/teacher/teacher.reducer';
 import experiment, { ExperimentState } from 'app/modules/system/experiment/experiment.reducer';
+import laboratory, { LaboratoryState } from 'app/modules/system/lab/laboratory.reducer';
 
 export interface IRootState {
   readonly authentication: AuthenticationState;
@@ -29,6 +30,7 @@ export interface IRootState {
   readonly student: StudentState;
   readonly teacher: TeacherState;
   readonly experiment: ExperimentState;
+  readonly laboratory: LaboratoryState;
 }
 
 const rootReducer = combineReducers<IRootState>({
@@ -44,7 +46,8 @@ const rootReducer = combineReducers<IRootState>({
   loadingBar,
   student,
   teacher,
-  experiment
+  experiment,
+  laboratory
 });
 
 export default rootReducer;

@@ -2,13 +2,14 @@ import React from 'react';
 import { Switch } from 'react-router-dom';
 
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
-import teacher from 'app/modules/system/teacher/teacer';
-import TeacherDetail from 'app/modules/system/teacher/teacher-detail';
+
+import LaboratoryDetail from 'app/modules/system/lab/laboratory-detail';
+import Laboratory from 'app/modules/system/lab/laboratory';
 
 const Routes = ({ match }) => (
   <Switch>
-    <ErrorBoundaryRoute exact path={`${match.url}/detail`} component={TeacherDetail} />
-    <ErrorBoundaryRoute path={match.url} component={teacher} />
+    <ErrorBoundaryRoute exact path={`${match.url}/detail`} component={LaboratoryDetail} />
+    <ErrorBoundaryRoute path={match.url} component={Laboratory} />
   </Switch>
 );
 

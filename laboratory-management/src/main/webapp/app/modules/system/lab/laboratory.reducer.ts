@@ -10,7 +10,10 @@ export const ACTION_TYPE = {
   DEL_LABORATORY: 'laboratory/CREATE_LABORATORY',
   EDIT_LABORATORY: 'laboratory/EDIT_LABORATORY',
   SET_VISIBLE: 'laboratory/SET_VISIBLE',
-  SET_LABORATORY: 'laboratory/SET_LABORATORY'
+  SET_LABORATORY: 'laboratory/SET_LABORATORY',
+  GET_EQUIPMENTS: 'equipment/GET_EQUIPMENTS',
+  HANDLE_EQU_ID: 'equipment/HANDLE_EQU_ID',
+  ADD_EQUIPMENTS: '/equipment/ADD_EQUIPMENTS'
 };
 
 export const initialState = {
@@ -23,7 +26,8 @@ export const initialState = {
   visible: false,
   keyword: '',
   isSuccess: false,
-  equipments: [] as ReadonlyArray<IEquipment>
+  equipments: [],
+  equipmentId: []
 };
 
 export type LaboratoryState = Readonly<typeof initialState>;
@@ -68,6 +72,17 @@ export default (state: LaboratoryState = initialState, action): LaboratoryState 
         ...state,
         laboratory: action.payload
       };
+    case SUCCESS(ACTION_TYPE.GET_EQUIPMENTS):
+      return {
+        ...state,
+        equipments: action.payload.data.list
+      };
+    case ACTION_TYPE.HANDLE_EQU_ID:
+      return {
+        ...state,
+        equipmentId: action.payload
+      };
+
     case FAILURE(ACTION_TYPE.GET_LABORATORIES):
     case FAILURE(ACTION_TYPE.DEL_LABORATORY):
     case FAILURE(ACTION_TYPE.CREATE_LABORATORY):
@@ -82,7 +97,7 @@ export default (state: LaboratoryState = initialState, action): LaboratoryState 
   }
 };
 
-const apiUri = 'api/StuTeach';
+const apiUri = 'api/lab';
 
 export const setVisible = value => {
   return {
@@ -108,7 +123,7 @@ export const deleteLaboratory = id => {
 };
 
 export const getLaboratories = (page, size, keyword) => {
-  const request = `${apiUri}/search/${page}/${size}?keyword=${keyword}`;
+  const request = `${apiUri}/all/${page}/${size}`;
   return {
     type: ACTION_TYPE.GET_LABORATORIES,
     payload: axios.get(request)
@@ -127,5 +142,29 @@ export const setLaboratory = value => {
   return {
     type: ACTION_TYPE.SET_LABORATORY,
     payload: value
+  };
+};
+
+export const getEquipments = () => {
+  const request = 'api/equipment/all/0/100';
+  return {
+    type: ACTION_TYPE.GET_EQUIPMENTS,
+    payload: axios.get(request)
+  };
+};
+
+export const handleEquIds = value => {
+  return {
+    type: ACTION_TYPE.HANDLE_EQU_ID,
+    payload: value
+  };
+};
+
+// 添加与实验相关学生
+export const addEquipments = (labId, equipmentIds) => {
+  const request = `${apiUri}/addLabEquipment?labId=${labId}`;
+  return {
+    type: ACTION_TYPE.ADD_EQUIPMENTS,
+    payload: axios.post(request, equipmentIds)
   };
 };

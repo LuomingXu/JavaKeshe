@@ -4,9 +4,11 @@ import { RouteComponentProps } from 'react-router';
 import { Button, DatePicker, Divider, Drawer, Form, Input, Modal, Select, Table, Popconfirm } from 'antd';
 
 import {
+  addStudents,
   createExperiment,
   deleteExperiment,
   getExperiments,
+  handleStuIds,
   setExperiment,
   setVisible
 } from 'app/modules/system/experiment/experiment.reducer';
@@ -148,16 +150,26 @@ export class Experiment extends React.Component<IExperiment> {
     experiment.date = value;
   };
   handleLocationChange = (value, experiment) => {
-    experiment.loaction = value.target.value;
+    experiment.location = value.target.value;
   };
   handlePageChange = (pagination, filters, sorter) => {
     this.props.getExperiments(pagination.current, this.props.size, this.props.keyword);
   };
   // 对于实现添加学生
   handleChange = (value, students) => {
+    let ids = [];
     value.map(index => {
       console.log(students[index]);
     });
+
+    for (let i = 0; i < value.length; i++) {
+      ids[i] = students[value[i]].id;
+    }
+    this.props.handleStuIds(ids);
+  };
+
+  handleAddStudents = ids => {
+    this.props.addStudents(this.props.experiment.id, ids);
   };
 
   render() {
@@ -194,7 +206,7 @@ export class Experiment extends React.Component<IExperiment> {
             <Form.Item label="编号" style={{ width: 400 }}>
               <Input onChange={value => this.handleNumberChange(value, experiment)} />
             </Form.Item>
-            <Form.Item label="姓名" style={{ width: 400 }}>
+            <Form.Item label="实验名称" style={{ width: 400 }}>
               <Input onChange={value => this.handleNameChange(value, experiment)} />
             </Form.Item>
             <Form.Item label="教师" style={{ width: 400 }}>
@@ -208,16 +220,6 @@ export class Experiment extends React.Component<IExperiment> {
             </Form.Item>
             <Form.Item label="内容" style={{ width: 400 }}>
               <Input onChange={value => this.HandleContentChange(value, experiment)} />
-            </Form.Item>
-            <Form.Item label="参与学生" style={{ width: 400 }}>
-              <Select
-                mode="multiple"
-                style={{ width: '100%' }}
-                placeholder="选择参与学生"
-                onChange={value => this.handleChange(value, students)}
-              >
-                {children}
-              </Select>
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
               <Button type="primary" onClick={() => this.handleSubmit(experiment)}>
@@ -249,7 +251,9 @@ const mapDispatchToProps = {
   createExperiment,
   deleteExperiment,
   setExperiment,
-  getStudents
+  getStudents,
+  handleStuIds,
+  addStudents
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

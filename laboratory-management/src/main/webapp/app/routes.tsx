@@ -41,6 +41,11 @@ const Experiment = Loadable({
   loading: () => <div>loading ...</div>
 });
 
+const Lab = Loadable({
+  loader: () => import('app/modules/system/lab'),
+  loading: () => <div>loading ...</div>
+});
+
 // tslint:enable
 
 const Routes = () => (
@@ -58,6 +63,8 @@ const Routes = () => (
       <ErrorBoundaryRoute path="/system/student" component={Student} />
       <ErrorBoundaryRoute path="/system/teacher" component={Teacher} />
       <ErrorBoundaryRoute path="/system/experiment" component={Experiment} />
+      <ErrorBoundaryRoute path="/system/laboratory" component={Lab} />
+
       <ErrorBoundaryRoute path="/" component={Home} />
     </Switch>
   </div>

@@ -1,15 +1,17 @@
 import React from 'react';
 import {
+  addStudents,
   createExperiment,
   deleteExperiment,
   getExperimentGrades,
   getExperiments,
+  handleStuIds,
   setVisible,
   submitGrade,
   updateExperiment
 } from 'app/modules/system/experiment/experiment.reducer';
 import { connect } from 'react-redux';
-import { Button, DatePicker, Form, Input, InputNumber, Modal, Table } from 'antd';
+import { Button, DatePicker, Form, Input, InputNumber, Modal, Select, Table } from 'antd';
 import { RouteComponentProps } from 'react-router';
 import { getStudents } from 'app/modules/system/student/student.reducer';
 
@@ -17,6 +19,7 @@ export interface IExperimentDetailProps extends StateProps, DispatchProps, Route
 
 const confirm = Modal.confirm;
 const Search = Input.Search;
+const { Option } = Select;
 
 const formItemLayout = {
   labelCol: {
@@ -44,7 +47,7 @@ const tailFormItemLayout = {
 export class ExperimentDetail extends React.Component<IExperimentDetailProps> {
   componentDidMount(): void {
     // 渲染时加载分数数据
-    this.props.getExperimentGrades(this.props.experiment.no);
+    this.props.getExperimentGrades(this.props.experiment.id);
   }
 
   handleNameChange = (value, student) => {
@@ -71,6 +74,7 @@ export class ExperimentDetail extends React.Component<IExperimentDetailProps> {
 
   handleSubmit = experiment => {
     this.props.updateExperiment(experiment);
+    this.handleAddStudents(this.props.studentIds);
     this.props.history.push('/system/experiment');
     this.props.getExperiments(1, 8, this.props.keyword);
     this.props.getExperiments(1, 8, '');
@@ -85,11 +89,33 @@ export class ExperimentDetail extends React.Component<IExperimentDetailProps> {
     this.props.history.push('/system/experiment');
   };
 
+  // 对于实现添加学生
+  handleChange = (value, students) => {
+    let ids = [];
+    value.map(index => {
+      ids.push(students[index - 1].id);
+    });
+    this.props.handleStuIds(ids);
+  };
+
+  handleAddStudents = ids => {
+    this.props.addStudents(this.props.experiment.id, ids);
+  };
+
   render() {
     const { experiment, students, grades } = this.props;
+    const dateStr = experiment.date.toString();
+    console.log(dateStr);
     // 无数据则不显示
     let tableShow = grades.length > 0 ? 'visible' : 'hidden';
-
+    const children = [];
+    students.map(student => {
+      children.push(
+        <Option key={student.id}>
+          {student.number}-{student.name}
+        </Option>
+      );
+    });
     // @ts-ignore
     return (
       <div>
@@ -103,14 +129,25 @@ export class ExperimentDetail extends React.Component<IExperimentDetailProps> {
           <Form.Item label="教师" style={{ width: 400 }}>
             <Input defaultValue={experiment.teacher} onChange={value => this.handleTeacherChange(value, experiment)} />
           </Form.Item>
-          {/*<Form.Item label="日期" style={{width: 400}}>*/}
-          {/*    <DatePicker defaultValue={experiment.date} onChange={value => this.handleDateChange(value, experiment)}/>*/}
-          {/*</Form.Item>*/}
+          <Form.Item label="日期" style={{ width: 400 }}>
+            <label>{experiment.date}</label>
+          </Form.Item>
           <Form.Item label="地点" style={{ width: 400 }}>
             <Input defaultValue={experiment.location} onChange={value => this.handleLocationChange(value, experiment)} />
           </Form.Item>
           <Form.Item label="内容" style={{ width: 400 }}>
             <Input defaultValue={experiment.content} onChange={value => this.HandleContentChange(value, experiment)} />
+          </Form.Item>
+
+          <Form.Item label="参与学生" style={{ width: 400 }}>
+            <Select
+              mode="multiple"
+              style={{ width: '100%' }}
+              placeholder="选择参与学生"
+              onChange={value => this.handleChange(value, students)}
+            >
+              {children}
+            </Select>
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" onClick={() => this.handleSubmit(experiment)}>
@@ -130,7 +167,7 @@ export class ExperimentDetail extends React.Component<IExperimentDetailProps> {
           <tbody>
             {grades.map(grade => {
               return (
-                <tr key={grade.id}>
+                <tr key={grade.studentNo}>
                   <td>{grade.studentNo}</td>
                   <td>{grade.name}</td>
                   <td>
@@ -156,7 +193,8 @@ const mapStateToProps = storeState => ({
   experiment: storeState.experiment.experiment,
   keyword: storeState.experiment.keyword,
   students: storeState.student.students,
-  grades: storeState.experiment.grades
+  grades: storeState.experiment.grades,
+  studentIds: storeState.experiment.studentIds
 });
 
 const mapDispatchToProps = {
@@ -167,7 +205,9 @@ const mapDispatchToProps = {
   updateExperiment,
   getExperimentGrades,
   submitGrade,
-  getStudents
+  getStudents,
+  handleStuIds,
+  addStudents
 };
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

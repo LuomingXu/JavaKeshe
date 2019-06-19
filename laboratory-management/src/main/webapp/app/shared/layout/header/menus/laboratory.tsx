@@ -6,14 +6,14 @@ import { NavDropdown } from '../header-components';
 
 export const SystemMenuItems = (
   <>
-    <DropdownItem tag={Link} to="/system/laboratory/manage">
+    <DropdownItem tag={Link} to="/system/laboratory">
       <FontAwesomeIcon icon="wrench" fixedWidth /> 实验室管理
     </DropdownItem>
-    <DropdownItem tag={Link} to="/system/laboratory/schedule">
-      <FontAwesomeIcon icon="wrench" fixedWidth /> 实验课表管理
-    </DropdownItem>
+    {/*<DropdownItem tag={Link} to="/system/laboratory/schedule">*/}
+    {/*  <FontAwesomeIcon icon="wrench" fixedWidth /> 实验课表管理*/}
+    {/*</DropdownItem>*/}
     <DropdownItem tag={Link} to="/system/experiment">
-      <FontAwesomeIcon icon="wrench" fixedWidth /> 实验记录管理
+      <FontAwesomeIcon icon="wrench" fixedWidth /> 实验报告管理
     </DropdownItem>
     <DropdownItem tag={Link} to="/system/experiment/grade">
       <FontAwesomeIcon icon="wrench" fixedWidth /> 实验成绩管理

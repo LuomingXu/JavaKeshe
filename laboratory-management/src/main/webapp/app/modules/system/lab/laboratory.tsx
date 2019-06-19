@@ -1,10 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Button, Divider, Drawer, Form, Input, Modal, Select, Table } from 'antd';
-import { createLaboratory, deleteLaboratory, getLaboratories, setLaboratory, setVisible } from 'app/modules/system/lab/laboratory.reducer';
+import { Button, Divider, Drawer, Form, Input, Modal, Select, Table, Tag } from 'antd';
+import {
+  createLaboratory,
+  deleteLaboratory,
+  getEquipments,
+  getLaboratories,
+  setLaboratory,
+  setVisible
+} from 'app/modules/system/lab/laboratory.reducer';
 
-export interface ILaboratories extends StateProps, DispatchProps, RouteComponentProps<{}> {}
+export interface ILaboratoryState extends StateProps, DispatchProps, RouteComponentProps<{}> {}
 
 const confirm = Modal.confirm;
 const Search = Input.Search;
@@ -44,18 +51,35 @@ const columns = (match, history, props) => [
   },
   {
     title: '编号',
-    dataIndex: 'number',
+    dataIndex: 'no',
     sorter: true,
     width: '10%'
   },
   {
-    title: '姓名',
+    title: '名称',
     dataIndex: 'name',
     width: '10%'
   },
   {
-    title: '院系',
-    dataIndex: 'department'
+    title: '地点',
+    dataIndex: 'location'
+  },
+  {
+    title: '实验设备',
+    key: 'equipments',
+    dataIndex: 'equipments',
+    render: equipments => (
+      <span>
+        {equipments.map(equipment => {
+          let color = equipment.name.length > 5 ? 'geekblue' : 'green';
+          return (
+            <Tag color={color} key={equipment.id}>
+              {equipment.name}
+            </Tag>
+          );
+        })}
+      </span>
+    )
   },
   {
     title: '操作',
@@ -64,26 +88,25 @@ const columns = (match, history, props) => [
       <span>
         <Button
           onClick={() => {
-            props.setLaboratories(record);
+            props.setLaboratory(record);
             history.push(`${match.url}/detail`);
           }}
         >
-          {' '}
           detail
         </Button>
         <Divider type="vertical" />
-        <Button onClick={() => showConfirm(props.deleteLaboratories, record.id)}>delete</Button>
+        <Button onClick={() => showConfirm(props.deleteLaboratory, record.id)}>delete</Button>
       </span>
     )
   }
 ];
 
-function showConfirm(deleteLaboratories, id) {
+function showConfirm(deleteLaboratory, id) {
   confirm({
     title: '确定要删除',
     content: 'id: ' + id,
     onOk() {
-      deleteLaboratories(id);
+      deleteLaboratory(id);
       location.reload();
     },
     onCancel() {
@@ -92,9 +115,10 @@ function showConfirm(deleteLaboratories, id) {
   });
 }
 
-export class Laboratories extends React.Component<ILaboratories> {
+export class Laboratory extends React.Component<ILaboratoryState> {
   componentDidMount() {
     this.props.getLaboratories(1, 8, this.props.keyword);
+    this.props.getEquipments();
   }
 
   showDrawer = () => {
@@ -109,11 +133,11 @@ export class Laboratories extends React.Component<ILaboratories> {
     student.name = value.target.value;
   };
 
-  handleDeptChange = (value, laboratory) => {
-    laboratory.department = value.target.value;
+  handleLocationChange = (value, laboratory) => {
+    laboratory.location = value.target.value;
   };
   handleNumberChange = (value, laboratory) => {
-    laboratory.number = value.target.value;
+    laboratory.no = value.target.value;
   };
   handleSubmit = laboratory => {
     laboratory.id = null;
@@ -152,11 +176,11 @@ export class Laboratories extends React.Component<ILaboratories> {
             <Form.Item label="编号" style={{ width: 400 }}>
               <Input onChange={value => this.handleNumberChange(value, laboratory)} />
             </Form.Item>
-            <Form.Item label="姓名" style={{ width: 400 }}>
+            <Form.Item label="名称" style={{ width: 400 }}>
               <Input onChange={value => this.handleNameChange(value, laboratory)} />
             </Form.Item>
-            <Form.Item label="学院" style={{ width: 400 }}>
-              <Input onChange={value => this.handleDeptChange(value, laboratory)} />
+            <Form.Item label="地点" style={{ width: 400 }}>
+              <Input onChange={value => this.handleLocationChange(value, laboratory)} />
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
               <Button type="primary" onClick={() => this.handleSubmit(laboratory)}>
@@ -172,13 +196,14 @@ export class Laboratories extends React.Component<ILaboratories> {
 
 const mapStateToProps = storeState => ({
   account: storeState.authentication.account,
-  laboratories: storeState.laboratorie.laboratories,
-  laboratory: storeState.laboratorie.laboratory,
-  page: storeState.laboratorie.page,
-  size: storeState.laboratorie.size,
-  total: storeState.laboratorie.total,
-  visible: storeState.laboratorie.visible,
-  keyword: storeState.laboratorie.keyword
+  laboratories: storeState.laboratory.laboratories,
+  laboratory: storeState.laboratory.laboratory,
+  page: storeState.laboratory.page,
+  size: storeState.laboratory.size,
+  total: storeState.laboratory.total,
+  visible: storeState.laboratory.visible,
+  keyword: storeState.laboratory.keyword,
+  equipments: storeState.laboratory.equipments
 });
 
 const mapDispatchToProps = {
@@ -186,7 +211,8 @@ const mapDispatchToProps = {
   getLaboratories,
   createLaboratory,
   deleteLaboratory,
-  setLaboratory
+  setLaboratory,
+  getEquipments
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
@@ -195,4 +221,4 @@ type DispatchProps = typeof mapDispatchToProps;
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Laboratories);
+)(Laboratory);

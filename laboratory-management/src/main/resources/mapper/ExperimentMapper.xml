@@ -15,10 +15,13 @@
         </collection>
     </resultMap>
     <select id="selectAll" resultMap="BaseResultMap">
-        select * from experiment
+        select *
+        from experiment
     </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        select * from experiment where id = #{id,jdbcType=BIGINT}
+        select *
+        from experiment
+        where id = #{id,jdbcType=BIGINT}
     </select>
     <select id="selectByPrimaryKeyWithStudent" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select experiment.*,
@@ -39,6 +42,12 @@
         where experiment.id = experiment_student.experiment_id
           and student.id = experiment_student.student_id
     </select>
+    <select id="isExist" parameterType="java.lang.Long" resultType="java.lang.Long">
+        select id
+        from experiment_student
+        where experiment_id = #{id,jdbcType=BIGINT}
+          and student_id = #{stuId,jdbcType=BIGINT} ;
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete
         from experiment
@@ -47,7 +56,7 @@
     <insert id="insertExperimentStudent" parameterType="java.lang.Long">
         insert into experiment_student(experiment_id, student_id)
         values
-        <foreach collection="list" item="item" index="index" separator=",">
+        <foreach collection="stuIds" item="item" index="index" separator=",">
             (#{experimentId},#{item})
         </foreach>
     </insert>

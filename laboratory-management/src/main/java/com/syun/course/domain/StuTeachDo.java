@@ -22,6 +22,8 @@ public class StuTeachDo
 
     private Date lastModify;
 
+    private Integer grade;
+
     public StuTeachDo(Long id, String name, String number, Boolean sex, String department, String specialty, String className, Boolean isDel, Date lastModify) {
         this.id = id;
         this.name = name;
@@ -110,6 +112,26 @@ public class StuTeachDo
         this.lastModify = lastModify;
     }
 
+    public Boolean getDel()
+    {
+        return isDel;
+    }
+
+    public void setDel(Boolean del)
+    {
+        isDel = del;
+    }
+
+    public Integer getGrade()
+    {
+        return grade;
+    }
+
+    public void setGrade(Integer grade)
+    {
+        this.grade = grade;
+    }
+
     @Override
     public String toString()
     {
@@ -123,6 +145,7 @@ public class StuTeachDo
             ", className='" + className + '\'' +
             ", isDel=" + isDel +
             ", lastModify=" + lastModify +
+            ", grade=" + grade +
             '}';
     }
 }

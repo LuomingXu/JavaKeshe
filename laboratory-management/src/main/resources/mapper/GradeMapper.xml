@@ -9,18 +9,22 @@
     </resultMap>
     <select id="selectByExperimentNo" resultMap="BaseResultMap">
         select *
-        from grade
+        from grade,
+             student
         where experiment_no = #{experimentNo,jdbcType=VARCHAR}
+          and grade.student_no = student.number
     </select>
     <select id="selectByStudentNo" resultMap="BaseResultMap">
         select *
-        from grade
+        from grade, student
         where student_no = #{studentNo,jdbcType=VARCHAR}
+          and grade.student_no = student.number
     </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select *
-        from grade
-        where id = #{id,jdbcType=BIGINT}
+        from grade, student
+        where grade.id = #{id,jdbcType=BIGINT}
+          and grade.student_no = student.number
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete

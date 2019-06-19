@@ -28,6 +28,8 @@ public interface ExperimentMapper
             @Param("stuIds") List<Long> stuIds
         );
 
+    Long isExist(@Param("id") Long experimentId, @Param("stuId") Long studentId);
+
     ExperimentDO selectByPrimaryKey(Long id);
 
     List<ExperimentDO> selectAll();

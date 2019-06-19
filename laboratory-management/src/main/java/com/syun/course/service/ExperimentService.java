@@ -13,6 +13,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.ImmutableMap;
 import com.syun.course.domain.ExperimentDO;
+import com.syun.course.domain.GradeDO;
+import com.syun.course.domain.StuTeachDo;
 import com.syun.course.repository.ExperimentMapper;
 import com.syun.course.web.rest.errors.CustomParameterizedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +26,13 @@ import java.util.List;
 public class ExperimentService
 {
     private final ExperimentMapper mapper;
+    private final GradeService gradeService;
 
     @Autowired
-    public ExperimentService(ExperimentMapper mapper)
+    public ExperimentService(ExperimentMapper mapper, GradeService gradeService)
     {
         this.mapper = mapper;
+        this.gradeService = gradeService;
     }
 
     public ImmutableMap<String, Object> getAll(Integer page, Integer size)
@@ -60,7 +64,29 @@ public class ExperimentService
 
     public ExperimentDO searchByIdWithStudent(Long id)
     {
-        return mapper.selectByPrimaryKeyWithStudent(id);
+        ExperimentDO record = mapper.selectByPrimaryKeyWithStudent(id);
+
+        if (record.getStudents() != null && record.getStudents().size() > 0)
+        {
+            List<StuTeachDo> students = record.getStudents();
+            List<GradeDO> grades = gradeService.getByExperimentNo(record.getNo());
+
+            if (grades!=null)
+            {
+                for (GradeDO grade : grades)
+                {
+                    for (StuTeachDo student : students)
+                    {
+                        if (grade.getStudentNo().equals(student.getNumber()))
+                        {
+                            student.setGrade(grade.getGrade());
+                        }
+                    }
+                }
+            }
+        }
+
+        return record;
     }
 
     public Boolean add(ExperimentDO record)
@@ -70,6 +96,13 @@ public class ExperimentService
 
     public Boolean addExperimentStudent(Long experimentId, List<Long> stuIds)
     {
+        stuIds.removeIf(id -> mapper.isExist(experimentId, id) != null);
+
+        if (stuIds.size() < 1)
+        {
+            return true;
+        }
+
         return mapper.insertExperimentStudent(experimentId, stuIds) == stuIds.size();
     }
 

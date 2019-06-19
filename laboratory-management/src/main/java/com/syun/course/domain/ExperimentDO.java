@@ -9,8 +9,6 @@
 
 package com.syun.course.domain;
 
-import javax.persistence.Transient;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -53,7 +51,6 @@ public class ExperimentDO
      */
     private Date date;
 
-    @Transient
     private List<StuTeachDo> students;
 
     public Long getId()
@@ -139,15 +136,21 @@ public class ExperimentDO
     @Override
     public String toString()
     {
+        StringBuilder str = new StringBuilder();
+        for (StuTeachDo record : students)
+        {
+            str.append(record.toString());
+        }
+
         return "ExperimentDO{" +
             "id=" + id +
             ", no='" + no + '\'' +
             ", teacher='" + teacher + '\'' +
+            ", students=" + str +
             ", location='" + location + '\'' +
             ", name='" + name + '\'' +
             ", content='" + content + '\'' +
             ", date=" + date +
-            ", students=" + students +
             '}';
     }
 }

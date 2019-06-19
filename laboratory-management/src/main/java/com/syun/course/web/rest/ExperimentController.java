@@ -40,16 +40,16 @@ public class ExperimentController
         return service.getAll(page, size);
     }
 
-    @ApiOperation("包含了参与这个实验的学生List")
-    @GetMapping("/all/withStudent/{page}/{size}")
-    public ImmutableMap<String, Object> getAllWithStudent
-        (
-            @PathVariable("page") Integer page,
-            @PathVariable("size") Integer size
-        )
-    {
-        return service.getAllWithStudent(page, size);
-    }
+//    @ApiOperation("包含了参与这个实验的学生List")
+//    @GetMapping("/all/withStudent/{page}/{size}")
+//    public ImmutableMap<String, Object> getAllWithStudent
+//        (
+//            @PathVariable("page") Integer page,
+//            @PathVariable("size") Integer size
+//        )
+//    {
+//        return service.getAllWithStudent(page, size);
+//    }
 
     @GetMapping("/{id}")
     public ExperimentDO getById(@PathVariable Long id)
@@ -58,7 +58,7 @@ public class ExperimentController
     }
 
     @ApiOperation("包含了参与这个实验的学生List")
-    @GetMapping("/withStudent/{id}")
+    @GetMapping("/{id}/withStudent")
     public ExperimentDO getByIdWithStudent(@PathVariable Long id)
     {
         return service.searchByIdWithStudent(id);

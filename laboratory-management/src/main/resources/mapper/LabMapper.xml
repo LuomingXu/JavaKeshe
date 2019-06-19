@@ -13,20 +13,16 @@
     </resultMap>
     <select id="selectAll" resultMap="BaseResultMap">
         select lab.*, equipment.id as equipmentId, equipment.name as equipmentName
-        from lab,
-             lab_equipment,
-             equipment
-        where lab.id = lab_equipment.lab_id
-          and lab_equipment.equipment_id = equipment.id
+        from lab
+                 left join lab_equipment on lab_equipment.lab_id = lab.id
+                 left join equipment on equipment.id = lab_equipment.equipment_id
     </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select lab.*, equipment.id as equipmentId, equipment.name as equipmentName
-        from lab,
-             lab_equipment,
-             equipment
-        where lab.id = lab_equipment.lab_id
-          and lab_equipment.equipment_id = equipment.id
-          and id = #{id,jdbcType=BIGINT}
+        from lab
+                 left join lab_equipment on lab_equipment.lab_id = lab.id
+                 left join equipment on equipment.id = lab_equipment.equipment_id
+        where lab.id = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete

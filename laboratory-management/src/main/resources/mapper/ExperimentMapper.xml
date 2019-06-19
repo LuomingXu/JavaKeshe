@@ -33,12 +33,12 @@
         where experiment.id = #{id,jdbcType=BIGINT}
     </select>
     <select id="selectAllWithStudent" resultMap="BaseResultMap">
-        select experiment.*, student.number as stuNo, student.name as stuName
-        from experiment,
-             experiment_student,
-             student
-        where experiment.id = experiment_student.experiment_id
-          and student.id = experiment_student.student_id
+        select experiment.*,
+               student.number as stuNo,
+               student.name   as stuName
+        from experiment
+                 left join experiment_student on experiment_student.experiment_id = experiment.id
+                 left join student on student.id = experiment_student.student_id
     </select>
     <select id="isExist" parameterType="java.lang.Long" resultType="java.lang.Long">
         select id

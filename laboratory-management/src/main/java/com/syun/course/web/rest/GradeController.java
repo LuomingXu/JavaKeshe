@@ -59,9 +59,9 @@ public class GradeController
     }
 
     @PostMapping("/update")
-    public Boolean update(@RequestBody GradeDO record)
+    public Boolean update(@RequestBody List<GradeDO> records)
     {
-        return service.update(record);
+        return service.update(records);
     }
 
     @DeleteMapping("/{id}")

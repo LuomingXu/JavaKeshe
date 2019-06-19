@@ -35,7 +35,6 @@ public class LabDO implements Serializable {
      */
     private String location;
 
-    @Transient
     private List<EquipmentDO> equipments;
 
     public Long getId() {

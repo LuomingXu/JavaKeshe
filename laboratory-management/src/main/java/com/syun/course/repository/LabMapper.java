@@ -16,10 +16,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface LabMapper {
+public interface LabMapper
+{
     int deleteByPrimaryKey(Long id);
 
-    int insertLabEquipment(@Param("labId") Long labId, @Param("equipmentId") Long equipmentId);
+    int insertLabEquipment(@Param("labId") Long labId, @Param("equipmentIds") List<Long> equipmentIds);
 
     int insertSelective(LabDO record);
 

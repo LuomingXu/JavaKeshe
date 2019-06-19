@@ -16,6 +16,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/lab")
 public class LabController
@@ -45,10 +47,10 @@ public class LabController
     }
 
     @ApiOperation("根据实验室id添加此实验室的设备(设备id)")
-    @GetMapping("/addLabEquipment")
-    public Boolean addLabEquipment(@RequestParam Long labId, @RequestParam Long equipmentId)
+    @PostMapping("/addLabEquipment")
+    public Boolean addLabEquipment(@RequestParam Long labId, @RequestBody List<Long> equipmentIds)
     {
-        return service.addLabEquipment(labId, equipmentId);
+        return service.addLabEquipment(labId, equipmentIds);
     }
 
     @PostMapping("/add")

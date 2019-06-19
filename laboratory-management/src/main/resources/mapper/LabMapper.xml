@@ -31,7 +31,10 @@
     </delete>
     <insert id="insertLabEquipment" parameterType="java.lang.Long">
         insert into lab_equipment(lab_id, equipment_id)
-        values (#{labId,jdbcType=BIGINT}, #{equipmentId,jdbcType=BIGINT})
+        values
+        <foreach collection="equipmentIds" item="item" index="index" separator=",">
+            (#{labId},#{item})
+        </foreach>
     </insert>
     <insert id="insertSelective" parameterType="com.syun.course.domain.LabDO">
         insert into lab

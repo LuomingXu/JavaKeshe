@@ -43,19 +43,28 @@ public class GradeService
         return mapper.insertSelective(record) == 1;
     }
 
-    public Boolean update(GradeDO record)
+    public Boolean update(List<GradeDO> records)
     {
-        if (record.getStudentNo() == null || record.getStudentNo().equals(""))
+        int count = 0;
+        for (GradeDO record : records)
         {
-            throw new CustomParameterizedException("学号不能为空", record.toString());
+            if (record.getStudentNo() == null || record.getStudentNo().equals(""))
+            {
+                throw new CustomParameterizedException("学号不能为空", record.toString());
+            }
+
+            if (record.getExperimentNo() == null || record.getExperimentNo().equals(""))
+            {
+                throw new CustomParameterizedException("实验编号不能为空", record.toString());
+            }
+
+            if (mapper.updateByExperimentNoStuNo(record) == 1)
+            {
+                count++;
+            }
         }
 
-        if (record.getExperimentNo() == null || record.getExperimentNo().equals(""))
-        {
-            throw new CustomParameterizedException("实验编号不能为空", record.toString());
-        }
-
-        return mapper.updateByExperimentNoStuNo(record) == 1;
+        return count == records.size();
     }
 
     public Boolean delete(Long id)

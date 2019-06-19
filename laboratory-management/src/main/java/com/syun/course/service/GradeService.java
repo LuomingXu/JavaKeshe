@@ -11,6 +11,7 @@ package com.syun.course.service;
 
 import com.syun.course.domain.GradeDO;
 import com.syun.course.repository.GradeMapper;
+import com.syun.course.web.rest.errors.CustomParameterizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +45,17 @@ public class GradeService
 
     public Boolean update(GradeDO record)
     {
-        return mapper.updateByPrimaryKeySelective(record) == 1;
+        if (record.getStudentNo() == null || record.getStudentNo().equals(""))
+        {
+            throw new CustomParameterizedException("学号不能为空", record.toString());
+        }
+
+        if (record.getExperimentNo() == null || record.getExperimentNo().equals(""))
+        {
+            throw new CustomParameterizedException("实验编号不能为空", record.toString());
+        }
+
+        return mapper.updateByExperimentNoStuNo(record) == 1;
     }
 
     public Boolean delete(Long id)

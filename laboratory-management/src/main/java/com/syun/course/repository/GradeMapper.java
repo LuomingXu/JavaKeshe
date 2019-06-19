@@ -28,6 +28,8 @@ public interface GradeMapper
 
     GradeDO selectByPrimaryKey(Long id);
 
+    int updateByExperimentNoStuNo(GradeDO record);
+
     int updateByPrimaryKeySelective(GradeDO record);
 
 }

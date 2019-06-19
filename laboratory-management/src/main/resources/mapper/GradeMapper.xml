@@ -16,13 +16,15 @@
     </select>
     <select id="selectByStudentNo" resultMap="BaseResultMap">
         select *
-        from grade, student
+        from grade,
+             student
         where student_no = #{studentNo,jdbcType=VARCHAR}
           and grade.student_no = student.number
     </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select *
-        from grade, student
+        from grade,
+             student
         where grade.id = #{id,jdbcType=BIGINT}
           and grade.student_no = student.number
     </select>
@@ -62,6 +64,12 @@
             </if>
         </trim>
     </insert>
+    <update id="updateByExperimentNoStuNo" parameterType="com.syun.course.domain.GradeDO">
+        update grade
+        set grade = #{grade,jdbcType=INTEGER}
+        where experiment_no = #{experimentNo,jdbcType=VARCHAR}
+          and student_no = #{studentNo,jdbcType=VARCHAR}
+    </update>
     <update id="updateByPrimaryKeySelective" parameterType="com.syun.course.domain.GradeDO">
         update grade
         <set>

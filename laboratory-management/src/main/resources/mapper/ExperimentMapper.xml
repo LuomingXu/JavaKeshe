@@ -27,12 +27,10 @@
         select experiment.*,
                student.number as stuNo,
                student.name   as stuName
-        from experiment,
-             experiment_student,
-             student
+        from experiment
+                 left join experiment_student on experiment_student.experiment_id = experiment.id
+                 left join student on student.id = experiment_student.student_id
         where experiment.id = #{id,jdbcType=BIGINT}
-          and experiment.id = experiment_student.experiment_id
-          and student.id = experiment_student.student_id
     </select>
     <select id="selectAllWithStudent" resultMap="BaseResultMap">
         select experiment.*, student.number as stuNo, student.name as stuName
@@ -46,7 +44,7 @@
         select id
         from experiment_student
         where experiment_id = #{id,jdbcType=BIGINT}
-          and student_id = #{stuId,jdbcType=BIGINT} ;
+          and student_id = #{stuId,jdbcType=BIGINT};
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete

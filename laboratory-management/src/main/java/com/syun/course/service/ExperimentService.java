@@ -16,6 +16,7 @@ import com.syun.course.domain.ExperimentDO;
 import com.syun.course.domain.GradeDO;
 import com.syun.course.domain.StuTeachDo;
 import com.syun.course.repository.ExperimentMapper;
+import com.syun.course.repository.StuTeachMapper;
 import com.syun.course.web.rest.errors.CustomParameterizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,12 +27,14 @@ import java.util.List;
 public class ExperimentService
 {
     private final ExperimentMapper mapper;
+    private final StuTeachMapper stuTeachMapper;
     private final GradeService gradeService;
 
     @Autowired
-    public ExperimentService(ExperimentMapper mapper, GradeService gradeService)
+    public ExperimentService(ExperimentMapper mapper, StuTeachMapper stuTeachMapper, GradeService gradeService)
     {
         this.mapper = mapper;
+        this.stuTeachMapper = stuTeachMapper;
         this.gradeService = gradeService;
     }
 
@@ -101,6 +104,17 @@ public class ExperimentService
         if (stuIds.size() < 1)
         {
             return true;
+        }
+
+        GradeDO gradeDO;
+        for (Long stuId : stuIds)
+        {
+            gradeDO = new GradeDO();
+            gradeDO.setExperimentNo(mapper.selectByPrimaryKey(experimentId).getNo());
+            gradeDO.setStudentNo(stuTeachMapper.selectByPrimaryKey(stuId).getNumber());
+            gradeDO.setGrade(0);
+
+            gradeService.add(gradeDO);
         }
 
         return mapper.insertExperimentStudent(experimentId, stuIds) == stuIds.size();

@@ -9,8 +9,6 @@
 
 package com.syun.course.domain;
 
-import java.io.Serializable;
-
 /**
  * grade
  * @author 

@@ -136,21 +136,15 @@ public class ExperimentDO
     @Override
     public String toString()
     {
-        StringBuilder str = new StringBuilder();
-        for (StuTeachDo record : students)
-        {
-            str.append(record.toString());
-        }
-
         return "ExperimentDO{" +
             "id=" + id +
             ", no='" + no + '\'' +
             ", teacher='" + teacher + '\'' +
-            ", students=" + str +
             ", location='" + location + '\'' +
             ", name='" + name + '\'' +
             ", content='" + content + '\'' +
             ", date=" + date +
+            ", students=" + students +
             '}';
     }
 }

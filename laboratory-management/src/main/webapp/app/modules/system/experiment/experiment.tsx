@@ -1,18 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Button, DatePicker, Divider, Drawer, Form, Input, Modal, Select, Table, Popconfirm } from 'antd';
+import { Button, DatePicker, Divider, Drawer, Form, Input, Modal, Select, Spin, Table, message, Badge, Dropdown, Icon } from 'antd';
 
 import {
   addStudents,
   createExperiment,
   deleteExperiment,
+  getExperimentGrades,
   getExperiments,
   handleStuIds,
   setExperiment,
+  setLoading,
   setVisible
 } from 'app/modules/system/experiment/experiment.reducer';
 import { getStudents } from 'app/modules/system/student/student.reducer';
+import StudentList from 'app/modules/system/experiment/StudentList';
+import NestedTable, { expandedRowRender } from 'app/modules/system/experiment/NestedTable';
 
 export interface IExperiment extends StateProps, DispatchProps, RouteComponentProps<{}> {}
 
@@ -86,22 +90,21 @@ const columns = (match, history, props) => [
             history.push(`${match.url}/detail`);
           }}
         >
-          {' '}
           detail
         </Button>
         <Divider type="vertical" />
-        <Button onClick={() => showConfirm(props.deleteExperiment, record.id)}>delete</Button>
+        <Button onClick={() => showConfirm(props, record.id)}>delete</Button>
       </span>
     )
   }
 ];
 
-function showConfirm(deleteExperiment, id) {
+function showConfirm(props, id) {
   confirm({
     title: '确定要删除',
     content: 'id: ' + id,
     onOk() {
-      deleteExperiment(id);
+      props.deleteExperiment(id);
       location.reload();
     },
     onCancel() {
@@ -135,7 +138,14 @@ export class Experiment extends React.Component<IExperiment> {
     experiment.id = null;
     this.props.createExperiment(experiment);
     this.props.setVisible(false);
-    this.props.getExperiments(1, 8, '');
+    // location.reload();
+    message.loading('创建实验信息', 2.5).then(
+      () => {
+        this.props.getExperiments(1, 8, this.props.keyword);
+        return message.success('创建成功', 2.5);
+      },
+      () => message.error('创建失败', 2.5)
+    );
   };
 
   HandleContentChange = (value, experiment) => {
@@ -154,22 +164,6 @@ export class Experiment extends React.Component<IExperiment> {
   };
   handlePageChange = (pagination, filters, sorter) => {
     this.props.getExperiments(pagination.current, this.props.size, this.props.keyword);
-  };
-  // 对于实现添加学生
-  handleChange = (value, students) => {
-    let ids = [];
-    value.map(index => {
-      console.log(students[index]);
-    });
-
-    for (let i = 0; i < value.length; i++) {
-      ids[i] = students[value[i]].id;
-    }
-    this.props.handleStuIds(ids);
-  };
-
-  handleAddStudents = ids => {
-    this.props.addStudents(this.props.experiment.id, ids);
   };
 
   render() {
@@ -193,14 +187,17 @@ export class Experiment extends React.Component<IExperiment> {
         <Button type="primary" size={'default'} style={{ float: 'right' }} onClick={() => this.showDrawer()}>
           创建
         </Button>
-        <Table
-          columns={columns(match, history, this.props)}
-          rowKey={account.login}
-          dataSource={experiments}
-          expandedRowRender={record => <p style={{ margin: 0 }}>{record.content}</p>}
-          pagination={pagination}
-          onChange={this.handlePageChange}
-        />
+        <Spin spinning={this.props.loading}>
+          <Table
+            columns={columns(match, history, this.props)}
+            rowKey={account.login}
+            dataSource={experiments}
+            // expandedRowRender={record => <p style={{margin: 0}}>{record.content}</p>}
+            pagination={pagination}
+            expandedRowRender={record => expandedRowRender(record, this.props)}
+            onChange={this.handlePageChange}
+          />
+        </Spin>
         <Drawer title="Basic Drawer" placement="right" width={500} closable={false} onClose={this.onClose} visible={visible}>
           <Form {...formItemLayout}>
             <Form.Item label="编号" style={{ width: 400 }}>
@@ -228,6 +225,8 @@ export class Experiment extends React.Component<IExperiment> {
             </Form.Item>
           </Form>
         </Drawer>
+        {/*<StudentList/>*/}
+        {/*<NestedTable experiments={experiments}/>*/}
       </div>
     );
   }
@@ -242,7 +241,9 @@ const mapStateToProps = storeState => ({
   total: storeState.experiment.total,
   visible: storeState.experiment.visible,
   keyword: storeState.experiment.keyword,
-  students: storeState.student.students
+  students: storeState.student.students,
+  loading: storeState.experiment.loading
+  // grades: storeState.experiment.grades
 });
 
 const mapDispatchToProps = {
@@ -253,7 +254,9 @@ const mapDispatchToProps = {
   setExperiment,
   getStudents,
   handleStuIds,
-  addStudents
+  addStudents,
+  setLoading,
+  getExperimentGrades
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

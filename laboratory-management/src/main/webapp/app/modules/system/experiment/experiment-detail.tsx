@@ -167,7 +167,7 @@ export class ExperimentDetail extends React.Component<IExperimentDetailProps> {
           <tbody>
             {grades.map(grade => {
               return (
-                <tr key={grade.studentNo}>
+                <tr key={grade.studentNo + Math.random()}>
                   <td>{grade.studentNo}</td>
                   <td>{grade.name}</td>
                   <td>
@@ -179,7 +179,6 @@ export class ExperimentDetail extends React.Component<IExperimentDetailProps> {
           </tbody>
           <tfoot />
           <Button type="primary" onClick={() => this.handleGradeSubmit(grades)}>
-            {' '}
             提交
           </Button>
         </table>

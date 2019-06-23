@@ -1,19 +1,21 @@
 import { defaultValue, IExperiment } from 'app/shared/model/experiment.model';
 import { FAILURE, SUCCESS } from 'app/shared/reducers/action-type.util';
+import { message } from 'antd';
 import axios from 'axios';
 
 export const ACTION_TYPE = {
   GET_EXPERIMENTS: 'experiment/GET_EXPERIMENTS',
   GET_EXPERIMENT: 'experiment/GET_EXPERIMENT',
   CREATE_EXPERIMENT: 'experiment/CREATE_EXPERIMENT',
-  DEL_EXPERIMENT: 'experiment/CREATE_EXPERIMENT',
+  DEL_EXPERIMENT: 'experiment/DEL_EXPERIMENT',
   EDIT_EXPERIMENT: 'experiment/EDIT_EXPERIMENT',
   SET_VISIBLE: 'experiment/SET_VISIBLE',
   SET_EXPERIMENT: 'experiment/SET_EXPERIMENT',
   GET_EXPERIMENT_GRADES: 'experiment/GET_EXPERIMENT_GRADES',
   ADD_GRADES: '/experiment/ADD_GRADES',
   HANDLE_STU_ID: '/experiment/HANDLE_STU_ID',
-  ADD_STUDENTS: '/experiment/ADD_STUDENTS'
+  ADD_STUDENTS: '/experiment/ADD_STUDENTS',
+  SET_LOADING: '/experiment/SET_LOADING'
 };
 
 export const initialState = {
@@ -21,13 +23,14 @@ export const initialState = {
   experiment: defaultValue,
   errorMessage: 'default message',
   page: 0,
-  size: 0,
+  size: 8,
   total: 0,
   visible: false,
   keyword: '',
   isSuccess: false,
   grades: [],
-  studentIds: []
+  studentIds: [],
+  loading: true
 };
 
 export type ExperimentState = Readonly<typeof initialState>;
@@ -35,12 +38,11 @@ export type ExperimentState = Readonly<typeof initialState>;
 export default (state: ExperimentState = initialState, action): ExperimentState => {
   switch (action.type) {
     case SUCCESS(ACTION_TYPE.GET_EXPERIMENTS):
-      console.log(action.payload);
       return {
         ...state,
         experiments: action.payload.data.list,
-        total: action.payload.data.total
-        // size: action.payload.data.size
+        total: action.payload.data.total,
+        loading: false
       };
     case SUCCESS(ACTION_TYPE.DEL_EXPERIMENT):
       return {
@@ -60,7 +62,7 @@ export default (state: ExperimentState = initialState, action): ExperimentState 
     case SUCCESS(ACTION_TYPE.CREATE_EXPERIMENT):
       return {
         ...state,
-        experiment: action.payload.experiment
+        isSuccess: action.payload.data
       };
     case SUCCESS(ACTION_TYPE.GET_EXPERIMENT_GRADES):
       let grades = [];
@@ -92,6 +94,11 @@ export default (state: ExperimentState = initialState, action): ExperimentState 
         ...state,
         studentIds: action.payload
       };
+    case ACTION_TYPE.SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload
+      };
     case FAILURE(ACTION_TYPE.GET_EXPERIMENTS):
     case FAILURE(ACTION_TYPE.DEL_EXPERIMENT):
     case FAILURE(ACTION_TYPE.CREATE_EXPERIMENT):
@@ -117,8 +124,6 @@ export const setVisible = value => {
 
 export const createExperiment = experiment => {
   const request = `${apiUri}/add`;
-  console.log(experiment);
-  console.log(request);
   return {
     type: ACTION_TYPE.CREATE_EXPERIMENT,
     payload: axios.post(request, experiment)
@@ -134,7 +139,7 @@ export const deleteExperiment = id => {
 };
 
 export const getExperiments = (page, size, keyword) => {
-  const request = `${apiUri}/all/${page}/${size}`;
+  const request = `${apiUri}/allWithGrades/${page}/${size}`;
   return {
     type: ACTION_TYPE.GET_EXPERIMENTS,
     payload: axios.get(request)
@@ -160,7 +165,6 @@ const gradeApi = '/api/grade';
 
 export const getExperimentGrades = id => {
   const request = `/api/experiment/${id}/withStudent`;
-  console.log(request);
   return {
     type: ACTION_TYPE.GET_EXPERIMENT_GRADES,
     payload: axios.get(request)
@@ -169,7 +173,6 @@ export const getExperimentGrades = id => {
 
 export const submitGrade = grades => {
   const request = `${gradeApi}/update`;
-  console.log(grades);
   return {
     type: ACTION_TYPE.ADD_GRADES,
     payload: axios.post(request, grades)
@@ -189,5 +192,12 @@ export const addStudents = (experimentId, stuIds) => {
   return {
     type: ACTION_TYPE.ADD_STUDENTS,
     payload: axios.post(request, stuIds)
+  };
+};
+
+export const setLoading = value => {
+  return {
+    type: ACTION_TYPE.SET_LOADING,
+    payload: value
   };
 };

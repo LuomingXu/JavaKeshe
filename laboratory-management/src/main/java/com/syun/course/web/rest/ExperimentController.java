@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/experiment")
@@ -87,4 +89,14 @@ public class ExperimentController
     {
         return service.delete(id);
     }
+
+
+    // 在主页面初次渲染时就获取所有相关信息，避免之后重查
+    @GetMapping("/allWithGrades/{page}/{size}")
+    public Map<String, Object> getAllWithGrades(@PathVariable("page") Integer page,
+            @PathVariable("size") Integer size) {
+
+        return service.getAllWithGrades(page, size);
+    }
+
 }

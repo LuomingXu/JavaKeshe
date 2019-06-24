@@ -1,7 +1,5 @@
-import { Table, Badge, Menu, Dropdown, Icon } from 'antd';
+import { Badge, Dropdown, Icon, Menu, Table } from 'antd';
 import React from 'react';
-import { connect } from 'react-redux';
-import get = Reflect.get;
 
 const menu = (
   <Menu>
@@ -128,17 +126,6 @@ export const expandedRowRender = (record, props) => {
       )
     }
   ];
-
-  const data = [];
-  for (let i = 0; i < 3; ++i) {
-    data.push({
-      key: i,
-      number: '12309779',
-      name: '长子徐',
-      grade: '111'
-    });
-  }
-
   return <Table columns={columns} dataSource={grades} pagination={false} />;
 };
 

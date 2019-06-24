@@ -21,7 +21,6 @@ const adminMenuItems = (
     <DropdownItem tag={Link} to="/admin/audits">
       <FontAwesomeIcon icon="bell" fixedWidth /> Audits
     </DropdownItem>
-    {/* jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here */}
     <DropdownItem tag={Link} to="/admin/logs">
       <FontAwesomeIcon icon="tasks" fixedWidth /> Logs
     </DropdownItem>

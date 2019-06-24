@@ -9,9 +9,6 @@ export const SystemMenuItems = (
     <DropdownItem tag={Link} to="/system/laboratory">
       <FontAwesomeIcon icon="wrench" fixedWidth /> 实验室管理
     </DropdownItem>
-    {/*<DropdownItem tag={Link} to="/system/laboratory/schedule">*/}
-    {/*  <FontAwesomeIcon icon="wrench" fixedWidth /> 实验课表管理*/}
-    {/*</DropdownItem>*/}
     <DropdownItem tag={Link} to="/system/experiment">
       <FontAwesomeIcon icon="wrench" fixedWidth /> 实验报告管理
     </DropdownItem>

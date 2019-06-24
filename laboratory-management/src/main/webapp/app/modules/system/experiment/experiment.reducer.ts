@@ -69,7 +69,7 @@ export default (state: ExperimentState = initialState, action): ExperimentState 
       let students = action.payload.data.students;
       for (let i = 0; i < students.length; i++) {
         grades[i] = {
-          experimentNo: state.experiment.id,
+          experimentNo: state.experiment.no,
           studentNo: students[i].number,
           name: students[i].name,
           grade: students[i].grade

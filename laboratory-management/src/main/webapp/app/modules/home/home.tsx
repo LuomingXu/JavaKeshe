@@ -9,7 +9,7 @@ import { Row, Col, Alert } from 'reactstrap';
 import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
 // @ts-ignore
-import base from '../../../static/images/home.jpg';
+import base from '../../../static/images/56.jpg';
 export interface IHomeProp extends StateProps, DispatchProps {}
 
 export class Home extends React.Component<IHomeProp> {
@@ -18,11 +18,11 @@ export class Home extends React.Component<IHomeProp> {
   }
   render() {
     const { account } = this.props;
-      return (
-          <div>
-              <img src={base} width='100%'/>
-          </div>
-      );
+    return (
+      <div>
+        <img src={base} width="100%" />
+      </div>
+    );
   }
 }
 

@@ -67,29 +67,7 @@ public class ExperimentService
 
     public ExperimentDO searchByIdWithStudent(Long id)
     {
-        ExperimentDO record = mapper.selectByPrimaryKeyWithStudent(id);
-
-        if (record.getStudents() != null && record.getStudents().size() > 0)
-        {
-            List<StuTeachDo> students = record.getStudents();
-            List<GradeDO> grades = gradeService.getByExperimentNo(record.getNo());
-
-            if (grades!=null)
-            {
-                for (GradeDO grade : grades)
-                {
-                    for (StuTeachDo student : students)
-                    {
-                        if (grade.getStudentNo().equals(student.getNumber()))
-                        {
-                            student.setGrade(grade.getGrade());
-                        }
-                    }
-                }
-            }
-        }
-
-        return record;
+        return mapper.selectByPrimaryKeyWithStudent(id);
     }
 
     public Boolean add(ExperimentDO record)

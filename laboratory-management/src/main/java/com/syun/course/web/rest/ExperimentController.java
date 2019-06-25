@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/experiment")
@@ -32,25 +31,22 @@ public class ExperimentController
     }
 
     @GetMapping("/all/{page}/{size}")
-    public ImmutableMap<String, Object> getAll
-        (
-            @PathVariable("page") Integer page,
-            @PathVariable("size") Integer size
-        )
+    public ImmutableMap<String, Object> getAll(@PathVariable Integer page, @PathVariable Integer size)
     {
         return service.getAll(page, size);
     }
 
-//    @ApiOperation("包含了参与这个实验的学生List")
-//    @GetMapping("/all/withStudent/{page}/{size}")
-//    public ImmutableMap<String, Object> getAllWithStudent
-//        (
-//            @PathVariable("page") Integer page,
-//            @PathVariable("size") Integer size
-//        )
-//    {
-//        return service.getAllWithStudent(page, size);
-//    }
+    // 在主页面初次渲染时就获取所有相关信息，避免之后重查
+    @ApiOperation("包含了参与这个实验的学生List")
+    @GetMapping("/all/withStudent/{page}/{size}")
+    public ImmutableMap<String, Object> getAllWithStudent
+        (
+            @PathVariable Integer page,
+            @PathVariable Integer size
+        )
+    {
+        return service.getAllWithStudent(page, size);
+    }
 
     @GetMapping("/{id}")
     public ExperimentDO getById(@PathVariable Long id)
@@ -88,14 +84,4 @@ public class ExperimentController
     {
         return service.delete(id);
     }
-
-
-    // 在主页面初次渲染时就获取所有相关信息，避免之后重查
-    @GetMapping("/allWithGrades/{page}/{size}")
-    public ImmutableMap<String, Object> getAllWithGrades(@PathVariable("page") Integer page,
-            @PathVariable("size") Integer size) {
-
-        return service.getAllWithStudent(page, size);
-    }
-
 }

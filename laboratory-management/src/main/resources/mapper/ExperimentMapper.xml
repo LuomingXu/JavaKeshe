@@ -12,6 +12,7 @@
         <collection property="students" ofType="com.syun.course.domain.StuTeachDo">
             <result column="stuName" jdbcType="VARCHAR" property="name"/>
             <result column="stuNo" jdbcType="VARCHAR" property="number"/>
+            <result column="grade" jdbcType="INTEGER" property="grade"/>
         </collection>
     </resultMap>
     <select id="selectAll" resultMap="BaseResultMap">
@@ -26,19 +27,23 @@
     <select id="selectByPrimaryKeyWithStudent" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select experiment.*,
                student.number as stuNo,
-               student.name   as stuName
+               student.name   as stuName,
+               grade.grade as grade
         from experiment
                  left join experiment_student on experiment_student.experiment_id = experiment.id
                  left join student on student.id = experiment_student.student_id
+                 left join grade on grade.student_no = student.number and grade.experiment_no = experiment.no
         where experiment.id = #{id,jdbcType=BIGINT}
     </select>
     <select id="selectAllWithStudent" resultMap="BaseResultMap">
         select experiment.*,
                student.number as stuNo,
-               student.name   as stuName
+               student.name   as stuName,
+               grade.grade as grade
         from experiment
                  left join experiment_student on experiment_student.experiment_id = experiment.id
                  left join student on student.id = experiment_student.student_id
+                 left join grade on grade.student_no = student.number and grade.experiment_no = experiment.no
     </select>
     <select id="isExist" parameterType="java.lang.Long" resultType="java.lang.Long">
         select id

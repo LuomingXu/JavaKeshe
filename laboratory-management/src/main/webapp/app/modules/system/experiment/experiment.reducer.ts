@@ -139,7 +139,7 @@ export const deleteExperiment = id => {
 };
 
 export const getExperiments = (page, size, keyword) => {
-  const request = `${apiUri}/allWithGrades/${page}/${size}`;
+  const request = `${apiUri}/all/withStudent/${page}/${size}`;
   return {
     type: ACTION_TYPE.GET_EXPERIMENTS,
     payload: axios.get(request)

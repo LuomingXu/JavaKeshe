@@ -20,6 +20,8 @@ public interface ExperimentMapper
 {
     int deleteByPrimaryKey(Long id);
 
+    int deleteByStuId(Long stuId);
+
     int insertSelective(ExperimentDO record);
 
     int insertExperimentStudent

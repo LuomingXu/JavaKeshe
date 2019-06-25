@@ -51,6 +51,11 @@
         from experiment
         where id = #{id,jdbcType=BIGINT}
     </delete>
+    <delete id="deleteByStuId" parameterType="java.lang.Long">
+        delete
+        from experiment_student
+        where student_id = #{stuId,jdbcType=BIGINT}
+    </delete>
     <insert id="insertExperimentStudent" parameterType="java.lang.Long">
         insert into experiment_student(experiment_id, student_id)
         values

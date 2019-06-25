@@ -23,10 +23,15 @@ public class StuTeachService
 {
     private final StuTeachMapper mapper;
 
+    private final GradeService gradeService;
+    private final ExperimentService experimentService;
+
     @Autowired
-    public StuTeachService(StuTeachMapper mapper)
+    public StuTeachService(StuTeachMapper mapper, GradeService gradeService, ExperimentService experimentService)
     {
         this.mapper = mapper;
+        this.gradeService = gradeService;
+        this.experimentService = experimentService;
     }
 
     public ImmutableMap<String, Object> getWithKeyword(Boolean is_teacher, String keyword, Integer page, Integer size)
@@ -66,8 +71,25 @@ public class StuTeachService
         return mapper.updateByPrimaryKeySelective(record) == 1;
     }
 
+    /**
+     * 需要删除关联的所有信息
+     *
+     * @param id
+     * @return
+     */
     public Boolean delete(Long id)
     {
-        return mapper.deleteByPrimaryKey(id) == 1;
+        StuTeachDo stuDo = this.getById(id);
+
+        int grade = gradeService.deleteByStudentNo(stuDo.getNumber());
+        int stu = mapper.deleteByPrimaryKey(id);
+        int experi = experimentService.deleteByStuId(id);
+
+        if (grade == experi && stu == 1)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

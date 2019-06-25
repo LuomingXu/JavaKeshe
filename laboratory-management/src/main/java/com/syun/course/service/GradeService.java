@@ -71,4 +71,9 @@ public class GradeService
     {
         return mapper.deleteByPrimaryKey(id) == 1;
     }
+
+    public int deleteByStudentNo(String stuNo)
+    {
+        return mapper.deleteByStuNo(stuNo);
+    }
 }

@@ -22,8 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class ExperimentService
@@ -137,19 +135,8 @@ public class ExperimentService
         return mapper.deleteByPrimaryKey(id) == 1;
     }
 
-
-    public Map<String, Object> getAllWithGrades(Integer page, Integer size) {
-        Page page1 = PageHelper.startPage(page, size, true);
-        List<ExperimentDO> list = mapper.selectAll();
-
-       List<ExperimentDO> experimentDOS = list.stream()
-           .map(p->searchByIdWithStudent(p.getId()))
-           .collect(Collectors.toList());
-
-       return ImmutableMap.of(
-            "total", page1.getTotal(),
-            "list", experimentDOS,
-            "page", page,
-            "size", size);
+    public int deleteByStuId(Long stuId)
+    {
+        return mapper.deleteByStuId(stuId);
     }
 }

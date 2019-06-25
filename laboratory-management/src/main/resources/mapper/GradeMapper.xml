@@ -33,6 +33,11 @@
         from grade
         where id = #{id,jdbcType=BIGINT}
     </delete>
+    <delete id="deleteByStuNo" parameterType="java.lang.String">
+        delete
+        from grade
+        where student_no = #{stuNo,jdbcType=VARCHAR}
+    </delete>
     <insert id="insertSelective" parameterType="com.syun.course.domain.GradeDO">
         insert into grade
         <trim prefix="(" suffix=")" suffixOverrides=",">

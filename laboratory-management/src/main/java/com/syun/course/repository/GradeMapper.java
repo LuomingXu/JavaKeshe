@@ -20,6 +20,8 @@ public interface GradeMapper
 {
     int deleteByPrimaryKey(Long id);
 
+    int deleteByStuNo(String stuNo);
+
     int insertSelective(GradeDO record);
 
     List<GradeDO> selectByExperimentNo(@Param("experimentNo") String experimentNo);
